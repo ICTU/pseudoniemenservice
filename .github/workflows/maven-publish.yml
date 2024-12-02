@@ -98,7 +98,7 @@ jobs:
             --env BP_NATIVE_IMAGE=true
 
       - name: Build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         run: |
           docker push ghcr.io/ictu/pseudoniemenservice-${{ matrix.platform }}
           
