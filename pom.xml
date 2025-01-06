@@ -15,6 +15,15 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>21</java.version>
+        <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
+        <spotbugs-annotations.version>4.8.6</spotbugs-annotations.version>
+        <bcprov-jdk18on.version>1.79</bcprov-jdk18on.version>
+        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+        <!-- PiTest settings -->
+        <pit.coverageThreshold>75</pit.coverageThreshold>
+        <pit.mutationThreshold>75</pit.mutationThreshold>
+        <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+        <pitest-maven.version>1.17.3</pitest-maven.version>
     </properties>
     <dependencies>
         <dependency>
@@ -33,7 +42,7 @@
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>3.1.0</version>
+            <version>${jakarta.validation-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -48,13 +57,13 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
-            <version>4.8.6</version>
+            <version>${spotbugs-annotations.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.79</version>
+            <version>${bcprov-jdk18on.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -94,12 +103,21 @@
                                 <openApiNullable>false</openApiNullable>
                                 <useOptional>true</useOptional>
                                 <documentationProvider>none</documentationProvider>
-                                <annotationLibrary>none</annotationLibrary>
+
+                                <!-- Builder-annotaties in de gegenereerde modelklassen -->
+                                <modelLombokBuilder>true</modelLombokBuilder>
+
+                                <!-- Indien je daarnaast ook algemene Lombok-annotaties als @Getter/@Setter wilt genereren -->
+                                <useLombokAnnotations>true</useLombokAnnotations>
+                                <additionalModelTypeAnnotations>@lombok.Builder @lombok.NoArgsConstructor
+                                    @lombok.AllArgsConstructor
+                                </additionalModelTypeAnnotations>
                             </configOptions>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
@@ -117,7 +135,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.8.6.6</version>
+                <version>${spotbugs-annotations.version}.6</version>
                 <configuration>
                     <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
                 </configuration>
@@ -134,7 +152,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>${maven-checkstyle-plugin.version}</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <excludeGeneratedSources>true</excludeGeneratedSources>
@@ -157,9 +175,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-<!--                    <image>-->
-<!--                        <builder>dashaun/builder:tiny</builder>-->
-<!--                    </image>-->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -197,7 +212,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>${maven-checkstyle-plugin.version}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -208,6 +223,51 @@
             </plugin>
         </plugins>
     </reporting>
+    <profiles>
+        <profile>
+            <id>pitest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>pitest-maven</artifactId>
+                        <configuration>
+                            <coverageThreshold>${pit.coverageThreshold}</coverageThreshold>
+                            <mutationThreshold>${pit.mutationThreshold}</mutationThreshold>
+                            <targetClasses>
+                                <param>nl.ictu.*</param>
+                            </targetClasses>
+                            <targetTests>
+                                <param>nl.ictu.*</param>
+                            </targetTests>
+                            <excludedClasses>
+                                <excludedClass>nl.ictu.pseudoniemenservice.generated.*</excludedClass>
+                            </excludedClasses>
+                            <timeoutConstant>5000</timeoutConstant>
+                            <timestampedReports>false</timestampedReports>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.pitest</groupId>
+                                <artifactId>pitest-junit5-plugin</artifactId>
+                                <version>1.2.1</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>mutationCoverage</goal>
+                                </goals>
+                                <id>pit-report</id>
+                                <phase>test</phase>
+                            </execution>
+                        </executions>
+                        <groupId>org.pitest</groupId>
+                        <version>${pitest-maven.version}</version>
+                    </plugin>
+                </plugins>
 
+            </build>
+        </profile>
+    </profiles>
 </project>
 

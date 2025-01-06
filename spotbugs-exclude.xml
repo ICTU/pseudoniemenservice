@@ -4,6 +4,6 @@
         <Package name="~.*\.generated\..*"/>
     </Match>
     <Match>
-        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2,HIDDEN_FIELD"/>
     </Match>
 </FindBugsFilter>
