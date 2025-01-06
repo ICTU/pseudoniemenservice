@@ -24,7 +24,7 @@ paths:
       tags:
         - Token
         - Identifier
-      summary: excgange token for an identifier
+      summary: exchange token for an identifier
       operationId: exchangeToken
       parameters:
         - $ref: "#/components/parameters/callerOIN"
