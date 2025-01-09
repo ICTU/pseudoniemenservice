@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public final class ExchangeIdentifierController implements ExchangeIdentifierApi,
-        VersionOneController {
+    VersionOneController {
 
-    private final ExchangeIdentifierService service;
+    private final ExchangeIdentifierService exchangeIdentifierService;
 
     /**
      * Exchanges an identifier based on the provided caller OIN and request data.
@@ -28,9 +28,9 @@ public final class ExchangeIdentifierController implements ExchangeIdentifierApi
      */
     @Override
     public ResponseEntity<WsExchangeIdentifierResponse> exchangeIdentifier(final String callerOIN,
-            final WsExchangeIdentifierRequest wsExchangeRequest) {
+                                                                           final WsExchangeIdentifierRequest wsExchangeRequest) {
 
-        final var identifier = service.exchangeIdentifier(wsExchangeRequest);
+        final var identifier = exchangeIdentifierService.exchangeIdentifier(wsExchangeRequest);
         return ResponseEntity.ok(identifier);
     }
 }
