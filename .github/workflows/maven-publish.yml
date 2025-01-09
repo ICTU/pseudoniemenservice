@@ -67,6 +67,5 @@ jobs:
           pack build ghcr.io/bhuism/pseudoniemenservice \
             --builder docker.io/paketobuildpacks/builder-jammy-buildpackless-tiny \
             --buildpack gcr.io/paketo-buildpacks/java-native-image \
-            --publish \
             --env BP_NATIVE_IMAGE=true \
             --env BP_MAVEN_ACTIVE_PROFILES=native
