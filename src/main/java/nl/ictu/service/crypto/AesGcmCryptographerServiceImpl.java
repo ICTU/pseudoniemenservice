@@ -1,18 +1,5 @@
-package nl.ictu.crypto;
+package nl.ictu.service.crypto;
 
-import static nl.ictu.utils.AesUtility.IV_LENGTH;
-
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import lombok.RequiredArgsConstructor;
 import nl.ictu.configuration.PseudoniemenServiceProperties;
 import nl.ictu.utils.AesUtility;
@@ -21,12 +8,26 @@ import nl.ictu.utils.ByteArrayUtil;
 import nl.ictu.utils.MessageDigestWrapper;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
+import static nl.ictu.utils.AesUtility.IV_LENGTH;
+
 /**
  * Advanced Encryption Standard  Galois/Counter Mode (AES-GCM).
  */
 @Component
 @RequiredArgsConstructor
-public class AesGcmCryptographer {
+public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerService {
 
     private final Base64Wrapper base64Wrapper;
     private final MessageDigestWrapper messageDigestWrapper;
@@ -50,13 +51,14 @@ public class AesGcmCryptographer {
      *                                            available
      * @throws NoSuchPaddingException             if the requested padding scheme is not available
      */
+    @Override
     public String encrypt(final String plaintext, final String salt)
-            throws IllegalBlockSizeException,
-            BadPaddingException,
-            InvalidAlgorithmParameterException,
-            InvalidKeyException,
-            NoSuchAlgorithmException,
-            NoSuchPaddingException {
+        throws IllegalBlockSizeException,
+        BadPaddingException,
+        InvalidAlgorithmParameterException,
+        InvalidKeyException,
+        NoSuchAlgorithmException,
+        NoSuchPaddingException {
 
         if (plaintext == null || plaintext.isEmpty()) {
             throw new IllegalArgumentException("Plaintext cannot be null or empty");
@@ -82,10 +84,11 @@ public class AesGcmCryptographer {
      *             key
      * @return a SecretKey instance derived from the combined and hashed input
      */
-    private SecretKey createSecretKey(final String salt) {
+    @Override
+    public SecretKey createSecretKey(final String salt) {
 
         final var keyBytes = base64Wrapper.decode(
-                pseudoniemenServiceProperties.getTokenPrivateKey());
+            pseudoniemenServiceProperties.getTokenPrivateKey());
         final var saltBytes = salt.getBytes(StandardCharsets.UTF_8);
         final var salterSecretBytes = ByteArrayUtil.concat(keyBytes, saltBytes);
         final var key = messageDigestWrapper.getMessageDigestInstance().digest(salterSecretBytes);
@@ -110,19 +113,20 @@ public class AesGcmCryptographer {
      * @throws BadPaddingException                if there are issues with padding during
      *                                            decryption
      */
+    @Override
     public String decrypt(final String ciphertextWithIv, final String salt)
-            throws NoSuchPaddingException,
-            NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException,
-            InvalidKeyException,
-            IllegalBlockSizeException,
-            BadPaddingException {
+        throws NoSuchPaddingException,
+        NoSuchAlgorithmException,
+        InvalidAlgorithmParameterException,
+        InvalidKeyException,
+        IllegalBlockSizeException,
+        BadPaddingException {
 
         final var cipher = AesUtility.createCipher();
         final var encryptedWithIV = base64Wrapper.decode(ciphertextWithIv);
         final var iv = Arrays.copyOfRange(encryptedWithIV, 0, IV_LENGTH);
         final var ciphertext = Arrays.copyOfRange(encryptedWithIV, IV_LENGTH,
-                encryptedWithIV.length);
+            encryptedWithIV.length);
         final var gcmParameterSpec = AesUtility.createIVfromValues(iv);
         final var secretKey = createSecretKey(salt);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParameterSpec);

@@ -1,14 +1,14 @@
 package nl.ictu.service.map;
 
 import lombok.RequiredArgsConstructor;
-import nl.ictu.crypto.AesGcmSivCryptographer;
+import nl.ictu.service.crypto.AesGcmSivCryptographerService;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class EncryptedBsnMapper {
 
-    private final AesGcmSivCryptographer aesGcmSivCryptographer;
+    private final AesGcmSivCryptographerService aesGcmSivCryptographerService;
 
     /**
      * Maps the encrypted business service number to its decrypted value using the given recipient OIN.
@@ -19,7 +19,7 @@ public class EncryptedBsnMapper {
      */
     public String map(final String bsnValue, final String recipientOIN) {
 
-        final var decodedIdentifier = aesGcmSivCryptographer.decrypt(bsnValue, recipientOIN);
+        final var decodedIdentifier = aesGcmSivCryptographerService.decrypt(bsnValue, recipientOIN);
         return decodedIdentifier.getBsn();
     }
 }

@@ -29,10 +29,10 @@ public final class ExchangeTokenController implements ExchangeTokenApi, VersionO
      */
     @Override
     public ResponseEntity<WsExchangeTokenResponse> exchangeToken(final String callerOIN,
-            final WsExchangeTokenRequest wsExchangeTokenForIdentifierRequest) {
+                                                                 final WsExchangeTokenRequest wsExchangeTokenForIdentifierRequest) {
 
         final var wsExchangeTokenResponse = exchangeTokenService.exchangeToken(callerOIN,
-                wsExchangeTokenForIdentifierRequest);
+            wsExchangeTokenForIdentifierRequest);
         return ResponseEntity.ok(wsExchangeTokenResponse);
     }
 }

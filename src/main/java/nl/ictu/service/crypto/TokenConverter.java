@@ -1,18 +1,19 @@
-package nl.ictu.crypto;
+package nl.ictu.service.crypto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.io.StringWriter;
 import lombok.RequiredArgsConstructor;
 import nl.ictu.model.Token;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.io.StringWriter;
+
 @Component
 @RequiredArgsConstructor
 @RegisterReflectionForBinding({Token.class})
-public class TokenCoder {
+public class TokenConverter {
 
     private final ObjectMapper objectMapper;
 

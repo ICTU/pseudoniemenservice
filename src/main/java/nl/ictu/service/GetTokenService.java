@@ -30,7 +30,7 @@ public final class GetTokenService {
      */
     @SneakyThrows
     public WsGetTokenResponse getWsGetTokenResponse(final String recipientOIN,
-            final WsIdentifier identifier) {
+                                                    final WsIdentifier identifier) {
 
         final var creationDate = System.currentTimeMillis();
         // check is callerOIN allowed to communicatie with sinkOIN

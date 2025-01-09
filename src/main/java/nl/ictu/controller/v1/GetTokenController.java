@@ -27,12 +27,12 @@ public final class GetTokenController implements GetTokenApi, VersionOneControll
      */
     @Override
     public ResponseEntity<WsGetTokenResponse> getToken(final String callerOIN,
-            final WsGetTokenRequest wsGetTokenRequest) {
+                                                       final WsGetTokenRequest wsGetTokenRequest) {
 
         final var recipientOIN = wsGetTokenRequest.getRecipientOIN();
         final var identifier = wsGetTokenRequest.getIdentifier();
         final var wsGetTokenResponse = getTokenService.getWsGetTokenResponse(
-                recipientOIN, identifier);
+            recipientOIN, identifier);
         return ResponseEntity.ok(wsGetTokenResponse);
     }
 }

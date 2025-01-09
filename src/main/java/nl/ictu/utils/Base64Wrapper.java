@@ -1,9 +1,10 @@
 package nl.ictu.utils;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
-import org.springframework.stereotype.Component;
 
 @Component
 public final class Base64Wrapper {

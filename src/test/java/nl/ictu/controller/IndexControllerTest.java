@@ -16,15 +16,15 @@ class IndexControllerTest {
 
     @Test
     @DisplayName("""
-            Given a request to the root endpoint
-            When performing a GET request
-            Then the response redirects to Swagger UI
-            """)
+        Given a request to the root endpoint
+        When performing a GET request
+        Then the response redirects to Swagger UI
+        """)
     void testRedirectToSwaggerUi() throws Exception {
         // WHEN & THEN
         mockMvc.perform(
-                        org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/"))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/swagger-ui/index.html"));
+                org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/"))
+            .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+            .andExpect(MockMvcResultMatchers.redirectedUrl("/swagger-ui/index.html"));
     }
 }

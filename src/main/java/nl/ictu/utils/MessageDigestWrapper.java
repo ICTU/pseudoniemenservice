@@ -1,8 +1,9 @@
 package nl.ictu.utils;
 
-import java.security.MessageDigest;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
+
+import java.security.MessageDigest;
 
 @Component
 public final class MessageDigestWrapper {

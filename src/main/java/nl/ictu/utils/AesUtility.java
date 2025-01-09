@@ -1,13 +1,14 @@
 package nl.ictu.utils;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.GCMParameterSpec;
 import lombok.experimental.UtilityClass;
 import org.bouncycastle.crypto.MultiBlockCipher;
 import org.bouncycastle.crypto.engines.AESEngine;
+
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.GCMParameterSpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 @UtilityClass
 public class AesUtility {

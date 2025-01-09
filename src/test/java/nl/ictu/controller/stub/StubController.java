@@ -18,8 +18,8 @@ public class StubController {
     public StubService service;
 
     @RequestMapping(
-            method = RequestMethod.GET,
-            value = "/stubby")
+        method = RequestMethod.GET,
+        value = "/stubby")
     public ResponseEntity<String> get() {
 
         service.throwAStubbedException();

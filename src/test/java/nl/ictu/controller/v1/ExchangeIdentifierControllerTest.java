@@ -1,10 +1,5 @@
 package nl.ictu.controller.v1;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
 import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
 import nl.ictu.service.ExchangeIdentifierService;
@@ -16,6 +11,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class ExchangeIdentifierControllerTest {
 
@@ -26,10 +26,10 @@ class ExchangeIdentifierControllerTest {
 
     @Test
     @DisplayName("""
-            Given a valid request and service response
-            When calling exchangeIdentifier()
-            Then it returns 200 OK with the expected response
-            """)
+        Given a valid request and service response
+        When calling exchangeIdentifier()
+        Then it returns 200 OK with the expected response
+        """)
     void testExchangeIdentifier_Success() {
         // GIVEN
         final var callerOIN = "123456789";
@@ -45,10 +45,10 @@ class ExchangeIdentifierControllerTest {
 
     @Test
     @DisplayName("""
-            Given a valid request and service throws an exception
-            When calling exchangeIdentifier()
-            Then it throws the same exception with the correct message
-            """)
+        Given a valid request and service throws an exception
+        When calling exchangeIdentifier()
+        Then it throws the same exception with the correct message
+        """)
     void testExchangeIdentifier_ServiceThrowsException() {
         // GIVEN
         final var callerOIN = "123456789";
@@ -57,7 +57,7 @@ class ExchangeIdentifierControllerTest {
         when(service.exchangeIdentifier(request)).thenThrow(exception);
         // WHEN & THEN
         final var thrownException = assertThrows(RuntimeException.class,
-                        () -> controller.exchangeIdentifier(callerOIN, request));
+            () -> controller.exchangeIdentifier(callerOIN, request));
         assertEquals("Service error", thrownException.getMessage());
         verify(service).exchangeIdentifier(request); // Ensure service method is called
     }

@@ -1,8 +1,8 @@
 package nl.ictu.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.ictu.service.exception.InvalidOINException;
 import nl.ictu.service.exception.IdentifierPrivateKeyException;
+import nl.ictu.service.exception.InvalidOINException;
 import nl.ictu.service.exception.InvalidWsIdentifierRequestTypeException;
 import nl.ictu.service.exception.InvalidWsIdentifierTokenException;
 import nl.ictu.service.exception.TokenPrivateKeyException;
@@ -31,8 +31,8 @@ public class GlobalExceptionHandler {
 
         log.error("Unexpected error occurred", ex);
         return new ResponseEntity<>(
-                "An unexpected error occurred: " + ex.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR
+            "An unexpected error occurred: " + ex.getMessage(),
+            HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
     public String handleInvalidWsIdentifierRequestTypeException(
-            final InvalidWsIdentifierRequestTypeException ex) {
+        final InvalidWsIdentifierRequestTypeException ex) {
 
         return ex.getMessage();
     }
@@ -79,7 +79,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
     public String handleInvalidWsIdentifierTokenException(
-            final InvalidWsIdentifierTokenException ex) {
+        final InvalidWsIdentifierTokenException ex) {
 
         return ex.getMessage();
     }
