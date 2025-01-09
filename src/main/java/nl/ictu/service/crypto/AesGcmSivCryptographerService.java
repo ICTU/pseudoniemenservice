@@ -1,7 +1,7 @@
-package nl.ictu.service.crypto;
+package nl.appsource.service.crypto;
 
 import lombok.SneakyThrows;
-import nl.ictu.model.Identifier;
+import nl.appsource.model.Identifier;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.params.AEADParameters;
 

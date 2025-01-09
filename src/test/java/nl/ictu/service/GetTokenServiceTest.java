@@ -1,11 +1,11 @@
-package nl.ictu.service;
+package nl.appsource.service;
 
-import nl.ictu.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifier;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes;
-import nl.ictu.service.exception.WsGetTokenProcessingException;
-import nl.ictu.service.map.WsGetTokenResponseMapper;
-import nl.ictu.service.map.WsIdentifierOinBsnMapper;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes;
+import nl.appsource.service.exception.WsGetTokenProcessingException;
+import nl.appsource.service.map.WsGetTokenResponseMapper;
+import nl.appsource.service.map.WsIdentifierOinBsnMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

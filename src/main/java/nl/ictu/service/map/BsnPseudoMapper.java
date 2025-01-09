@@ -1,16 +1,16 @@
-package nl.ictu.service.map;
+package nl.appsource.service.map;
 
 import lombok.RequiredArgsConstructor;
-import nl.ictu.model.Identifier;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifier;
-import nl.ictu.service.crypto.AesGcmSivCryptographerService;
+import nl.appsource.model.Identifier;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
+import nl.appsource.service.crypto.AesGcmSivCryptographerService;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
 
 @Component
 @RequiredArgsConstructor

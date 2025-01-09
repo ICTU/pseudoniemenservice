@@ -1,4 +1,4 @@
-package nl.ictu.controller.stub;
+package nl.appsource.controller.stub;
 
 import org.springframework.stereotype.Service;
 

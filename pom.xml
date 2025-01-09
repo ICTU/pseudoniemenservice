@@ -8,7 +8,7 @@
         <version>3.4.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>nl.ictu</groupId>
+    <groupId>nl.appsource</groupId>
     <artifactId>pseudoniemenservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>pseudoniemenservice</name>
@@ -82,8 +82,8 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/public/v1/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <modelPackage>nl.ictu.pseudoniemenservice.generated.server.model</modelPackage>
-                            <apiPackage>nl.ictu.pseudoniemenservice.generated.server.api</apiPackage>
+                            <modelPackage>nl.appsource.pseudoniemenservice.generated.server.model</modelPackage>
+                            <apiPackage>nl.appsource.pseudoniemenservice.generated.server.api</apiPackage>
                             <generateApiTests>false</generateApiTests>
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModelTests>false</generateModelTests>
@@ -234,13 +234,13 @@
                             <coverageThreshold>${pit.coverageThreshold}</coverageThreshold>
                             <mutationThreshold>${pit.mutationThreshold}</mutationThreshold>
                             <targetClasses>
-                                <param>nl.ictu.*</param>
+                                <param>nl.appsource.*</param>
                             </targetClasses>
                             <targetTests>
-                                <param>nl.ictu.*</param>
+                                <param>nl.appsource.*</param>
                             </targetTests>
                             <excludedClasses>
-                                <excludedClass>nl.ictu.pseudoniemenservice.generated.*</excludedClass>
+                                <excludedClass>nl.appsource.pseudoniemenservice.generated.*</excludedClass>
                             </excludedClasses>
                             <timeoutConstant>5000</timeoutConstant>
                             <timestampedReports>false</timestampedReports>

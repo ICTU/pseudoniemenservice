@@ -1,14 +1,14 @@
-package nl.ictu.service;
+package nl.appsource.service;
 
-import nl.ictu.model.Token;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
-import nl.ictu.service.crypto.AesGcmCryptographerService;
-import nl.ictu.service.crypto.TokenConverter;
-import nl.ictu.service.exception.InvalidOINException;
-import nl.ictu.service.map.BsnTokenMapper;
-import nl.ictu.service.map.OrganisationPseudoTokenMapper;
-import nl.ictu.service.validate.OINValidator;
+import nl.appsource.model.Token;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
+import nl.appsource.service.crypto.AesGcmCryptographerService;
+import nl.appsource.service.crypto.TokenConverter;
+import nl.appsource.service.exception.InvalidOINException;
+import nl.appsource.service.map.BsnTokenMapper;
+import nl.appsource.service.map.OrganisationPseudoTokenMapper;
+import nl.appsource.service.validate.OINValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;

@@ -1,13 +1,13 @@
-package nl.ictu.controller;
+package nl.appsource.controller;
 
-import nl.ictu.controller.stub.StubController;
-import nl.ictu.controller.stub.StubService;
-import nl.ictu.service.exception.IdentifierPrivateKeyException;
-import nl.ictu.service.exception.InvalidOINException;
-import nl.ictu.service.exception.InvalidWsIdentifierRequestTypeException;
-import nl.ictu.service.exception.InvalidWsIdentifierTokenException;
-import nl.ictu.service.exception.TokenPrivateKeyException;
-import nl.ictu.service.exception.WsGetTokenProcessingException;
+import nl.appsource.controller.stub.StubController;
+import nl.appsource.controller.stub.StubService;
+import nl.appsource.service.exception.IdentifierPrivateKeyException;
+import nl.appsource.service.exception.InvalidOINException;
+import nl.appsource.service.exception.InvalidWsIdentifierRequestTypeException;
+import nl.appsource.service.exception.InvalidWsIdentifierTokenException;
+import nl.appsource.service.exception.TokenPrivateKeyException;
+import nl.appsource.service.exception.WsGetTokenProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

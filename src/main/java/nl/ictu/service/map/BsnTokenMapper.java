@@ -1,12 +1,12 @@
-package nl.ictu.service.map;
+package nl.appsource.service.map;
 
 import lombok.RequiredArgsConstructor;
-import nl.ictu.model.Token;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifier;
+import nl.appsource.model.Token;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
 import org.springframework.stereotype.Component;
 
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
 
 @Component
 @RequiredArgsConstructor

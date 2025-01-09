@@ -47,15 +47,15 @@ jobs:
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io/ictu/pseudoniemenservice
-          username: ictu
+          registry: ghcr.io/bhuism/pseudoniemenservice
+          username: bhuism
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/ictu/pseudoniemenservice
+          images: ghcr.io/bhuism/pseudoniemenservice
 
       - name: Set up Pack
         uses: buildpacks/github-actions/setup-pack@v5.8.5
@@ -64,7 +64,7 @@ jobs:
 
       - name: Build and publish OCI image
         run: |
-          pack build ghcr.io/ictu/pseudoniemenservice \
+          pack build ghcr.io/bhuism/pseudoniemenservice \
             --builder docker.io/paketobuildpacks/builder-jammy-buildpackless-tiny \
             --buildpack gcr.io/paketo-buildpacks/java-native-image \
             --publish \

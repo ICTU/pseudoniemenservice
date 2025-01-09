@@ -1,12 +1,12 @@
-package nl.ictu.controller.v1;
+package nl.appsource.controller.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifier;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes;
-import nl.ictu.service.ExchangeTokenService;
-import nl.ictu.service.exception.InvalidOINException;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes;
+import nl.appsource.service.ExchangeTokenService;
+import nl.appsource.service.exception.InvalidOINException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

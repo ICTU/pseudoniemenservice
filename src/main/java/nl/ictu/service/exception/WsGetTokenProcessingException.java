@@ -1,4 +1,4 @@
-package nl.ictu.service.exception;
+package nl.appsource.service.exception;
 
 public class WsGetTokenProcessingException extends RuntimeException {
     public WsGetTokenProcessingException(final String message) {

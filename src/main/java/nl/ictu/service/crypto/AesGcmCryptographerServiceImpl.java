@@ -1,11 +1,11 @@
-package nl.ictu.service.crypto;
+package nl.appsource.service.crypto;
 
 import lombok.RequiredArgsConstructor;
-import nl.ictu.configuration.PseudoniemenServiceProperties;
-import nl.ictu.utils.AesUtility;
-import nl.ictu.utils.Base64Wrapper;
-import nl.ictu.utils.ByteArrayUtil;
-import nl.ictu.utils.MessageDigestWrapper;
+import nl.appsource.configuration.PseudoniemenServiceProperties;
+import nl.appsource.utils.AesUtility;
+import nl.appsource.utils.Base64Wrapper;
+import nl.appsource.utils.ByteArrayUtil;
+import nl.appsource.utils.MessageDigestWrapper;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
@@ -20,7 +20,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import static nl.ictu.utils.AesUtility.IV_LENGTH;
+import static nl.appsource.utils.AesUtility.IV_LENGTH;
 
 /**
  * Advanced Encryption Standard  Galois/Counter Mode (AES-GCM).

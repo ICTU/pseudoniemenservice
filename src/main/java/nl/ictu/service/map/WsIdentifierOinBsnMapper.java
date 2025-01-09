@@ -1,7 +1,7 @@
-package nl.ictu.service.map;
+package nl.appsource.service.map;
 
 import lombok.RequiredArgsConstructor;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifier;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
 import org.springframework.stereotype.Component;
 
 @Component

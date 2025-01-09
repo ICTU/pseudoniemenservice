@@ -1,7 +1,7 @@
-package nl.ictu.configuration;
+package nl.appsource.configuration;
 
-import nl.ictu.service.exception.IdentifierPrivateKeyException;
-import nl.ictu.service.exception.TokenPrivateKeyException;
+import nl.appsource.service.exception.IdentifierPrivateKeyException;
+import nl.appsource.service.exception.TokenPrivateKeyException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

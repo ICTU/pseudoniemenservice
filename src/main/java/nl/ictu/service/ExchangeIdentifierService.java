@@ -1,16 +1,16 @@
-package nl.ictu.service;
+package nl.appsource.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
-import nl.ictu.service.exception.InvalidWsIdentifierRequestTypeException;
-import nl.ictu.service.map.BsnPseudoMapper;
-import nl.ictu.service.map.PseudoBsnMapper;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
+import nl.appsource.service.exception.InvalidWsIdentifierRequestTypeException;
+import nl.appsource.service.map.BsnPseudoMapper;
+import nl.appsource.service.map.PseudoBsnMapper;
 import org.springframework.stereotype.Service;
 
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
 
 @RequiredArgsConstructor
 @Service

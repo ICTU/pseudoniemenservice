@@ -1,8 +1,8 @@
-package nl.ictu.controller.v1;
+package nl.appsource.controller.v1;
 
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
-import nl.ictu.service.ExchangeIdentifierService;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
+import nl.appsource.service.ExchangeIdentifierService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

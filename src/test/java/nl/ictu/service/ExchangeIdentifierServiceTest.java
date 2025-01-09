@@ -1,11 +1,11 @@
-package nl.ictu.service;
+package nl.appsource.service;
 
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifier;
-import nl.ictu.service.exception.InvalidWsIdentifierRequestTypeException;
-import nl.ictu.service.map.BsnPseudoMapper;
-import nl.ictu.service.map.PseudoBsnMapper;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
+import nl.appsource.service.exception.InvalidWsIdentifierRequestTypeException;
+import nl.appsource.service.map.BsnPseudoMapper;
+import nl.appsource.service.map.PseudoBsnMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

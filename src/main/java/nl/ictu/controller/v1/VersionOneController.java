@@ -1,4 +1,4 @@
-package nl.ictu.controller.v1;
+package nl.appsource.controller.v1;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 

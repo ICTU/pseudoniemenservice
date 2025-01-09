@@ -1,4 +1,4 @@
-package nl.ictu.utils;
+package nl.appsource.utils;
 
 import lombok.experimental.UtilityClass;
 import org.bouncycastle.crypto.MultiBlockCipher;

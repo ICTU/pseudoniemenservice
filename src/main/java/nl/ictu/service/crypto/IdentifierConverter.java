@@ -1,9 +1,9 @@
-package nl.ictu.service.crypto;
+package nl.appsource.service.crypto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import nl.ictu.model.Identifier;
+import nl.appsource.model.Identifier;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Component;
 

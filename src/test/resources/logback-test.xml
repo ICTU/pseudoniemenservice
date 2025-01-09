@@ -14,7 +14,7 @@
     </appender>
 
     <!-- our service -->
-    <logger name="nl.ictu" level="DEBUG"/>
+    <logger name="nl.appsource" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

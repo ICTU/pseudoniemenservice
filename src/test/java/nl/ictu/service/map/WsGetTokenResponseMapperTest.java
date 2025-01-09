@@ -1,8 +1,8 @@
-package nl.ictu.service.map;
+package nl.appsource.service.map;
 
-import nl.ictu.model.Token;
-import nl.ictu.service.crypto.AesGcmCryptographerService;
-import nl.ictu.service.crypto.TokenConverter;
+import nl.appsource.model.Token;
+import nl.appsource.service.crypto.AesGcmCryptographerService;
+import nl.appsource.service.crypto.TokenConverter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

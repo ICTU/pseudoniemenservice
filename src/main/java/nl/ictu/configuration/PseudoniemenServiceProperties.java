@@ -1,10 +1,10 @@
-package nl.ictu.configuration;
+package nl.appsource.configuration;
 
 import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import nl.ictu.service.exception.IdentifierPrivateKeyException;
-import nl.ictu.service.exception.TokenPrivateKeyException;
+import nl.appsource.service.exception.IdentifierPrivateKeyException;
+import nl.appsource.service.exception.TokenPrivateKeyException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

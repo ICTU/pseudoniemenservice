@@ -1,4 +1,4 @@
-package nl.ictu.utils;
+package nl.appsource.utils;
 
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;

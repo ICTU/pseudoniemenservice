@@ -1,6 +1,6 @@
-package nl.ictu.service.validate;
+package nl.appsource.service.validate;
 
-import nl.ictu.model.Token;
+import nl.appsource.model.Token;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

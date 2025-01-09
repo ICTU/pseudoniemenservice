@@ -1,7 +1,7 @@
-package nl.ictu.service.validate;
+package nl.appsource.service.validate;
 
 import lombok.RequiredArgsConstructor;
-import nl.ictu.model.Token;
+import nl.appsource.model.Token;
 import org.springframework.stereotype.Component;
 
 @Component

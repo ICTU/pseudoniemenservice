@@ -1,4 +1,4 @@
-package nl.ictu.model;
+package nl.appsource.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

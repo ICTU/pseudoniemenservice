@@ -1,4 +1,4 @@
-package nl.ictu.utils;
+package nl.appsource.utils;
 
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.junit.jupiter.api.DisplayName;

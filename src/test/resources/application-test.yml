@@ -5,7 +5,7 @@ server:
 logging:
   level:
     ROOT: info
-    nl.ictu: debug
+    nl.appsource: debug
 spring:
   application:
     name: Pseudoniemen Service

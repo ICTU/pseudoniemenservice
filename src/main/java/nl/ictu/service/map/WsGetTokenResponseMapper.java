@@ -1,10 +1,10 @@
-package nl.ictu.service.map;
+package nl.appsource.service.map;
 
 import lombok.RequiredArgsConstructor;
-import nl.ictu.model.Token;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
-import nl.ictu.service.crypto.AesGcmCryptographerService;
-import nl.ictu.service.crypto.TokenConverter;
+import nl.appsource.model.Token;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
+import nl.appsource.service.crypto.AesGcmCryptographerService;
+import nl.appsource.service.crypto.TokenConverter;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;

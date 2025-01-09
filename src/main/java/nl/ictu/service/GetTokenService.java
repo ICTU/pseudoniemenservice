@@ -1,13 +1,13 @@
-package nl.ictu.service;
+package nl.appsource.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifier;
-import nl.ictu.service.exception.WsGetTokenProcessingException;
-import nl.ictu.service.map.WsGetTokenResponseMapper;
-import nl.ictu.service.map.WsIdentifierOinBsnMapper;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
+import nl.appsource.service.exception.WsGetTokenProcessingException;
+import nl.appsource.service.map.WsGetTokenResponseMapper;
+import nl.appsource.service.map.WsIdentifierOinBsnMapper;
 import org.springframework.stereotype.Service;
 
 @Slf4j

@@ -1,4 +1,4 @@
-package nl.ictu;
+package nl.appsource;
 
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.InstanceOfAssertFactories;

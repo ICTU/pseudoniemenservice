@@ -1,7 +1,7 @@
-package nl.ictu.service.map;
+package nl.appsource.service.map;
 
-import nl.ictu.model.Identifier;
-import nl.ictu.service.crypto.AesGcmSivCryptographerService;
+import nl.appsource.model.Identifier;
+import nl.appsource.service.crypto.AesGcmSivCryptographerService;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 
-import static nl.ictu.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
+import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

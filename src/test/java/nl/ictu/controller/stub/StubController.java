@@ -1,4 +1,4 @@
-package nl.ictu.controller.stub;
+package nl.appsource.controller.stub;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,11 @@
-package nl.ictu.controller.v1;
+package nl.appsource.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nl.ictu.pseudoniemenservice.generated.server.api.GetTokenApi;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsGetTokenRequest;
-import nl.ictu.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
-import nl.ictu.service.GetTokenService;
+import nl.appsource.pseudoniemenservice.generated.server.api.GetTokenApi;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenRequest;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
+import nl.appsource.service.GetTokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

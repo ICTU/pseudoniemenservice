@@ -7,7 +7,7 @@ server:
 logging:
   level:
     ROOT: info
-    nl.ictu: debug
+    nl.appsource: debug
 spring:
   web:
     resources:

@@ -1,7 +1,7 @@
-package nl.ictu.service.map;
+package nl.appsource.service.map;
 
-import nl.ictu.model.Identifier;
-import nl.ictu.service.crypto.AesGcmSivCryptographerService;
+import nl.appsource.model.Identifier;
+import nl.appsource.service.crypto.AesGcmSivCryptographerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
