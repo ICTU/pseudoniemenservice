@@ -11,8 +11,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 class IndexControllerTest {
 
-    private final IndexController controller = new IndexController();
-    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    private final IndexController indexController = new IndexController();
+    private final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
 
     @Test
     @DisplayName("""
