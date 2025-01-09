@@ -50,12 +50,12 @@ class WsGetTokenResponseMapperTest {
             .creationDate(creationDate)
             .recipientOIN(recipientOIN)
             .build();
-        when(tokenConverter.encode(token)).thenReturn(encodedToken);
+        when(tokenConverter.serialize(token)).thenReturn(encodedToken);
         when(aesGcmCryptographerService.encrypt(encodedToken, recipientOIN)).thenReturn(encryptedToken);
         // WHEN
         final var response = wsGetTokenResponseMapper.map(bsn, creationDate, recipientOIN);
         // THEN
-        verify(tokenConverter).encode(token);
+        verify(tokenConverter).serialize(token);
         verify(aesGcmCryptographerService).encrypt(encodedToken, recipientOIN);
         org.junit.jupiter.api.Assertions.assertEquals(encryptedToken, response.getToken());
     }
@@ -74,11 +74,11 @@ class WsGetTokenResponseMapperTest {
             .creationDate(creationDate)
             .recipientOIN(recipientOIN)
             .build();
-        when(tokenConverter.encode(token)).thenThrow(new IOException("Encoding failed"));
+        when(tokenConverter.serialize(token)).thenThrow(new IOException("Encoding failed"));
         // WHEN & THEN
         assertThrows(IOException.class,
             () -> wsGetTokenResponseMapper.map(bsn, creationDate, recipientOIN));
-        verify(tokenConverter).encode(token);
+        verify(tokenConverter).serialize(token);
         verifyNoInteractions(aesGcmCryptographerService);
     }
 
@@ -96,13 +96,13 @@ class WsGetTokenResponseMapperTest {
             .creationDate(creationDate)
             .recipientOIN(recipientOIN)
             .build();
-        when(tokenConverter.encode(token)).thenReturn(encodedToken);
+        when(tokenConverter.serialize(token)).thenReturn(encodedToken);
         when(aesGcmCryptographerService.encrypt(encodedToken, recipientOIN))
             .thenThrow(new InvalidKeyException("Invalid encryption key"));
         // WHEN & THEN
         assertThrows(InvalidKeyException.class,
             () -> wsGetTokenResponseMapper.map(bsn, creationDate, recipientOIN));
-        verify(tokenConverter).encode(token);
+        verify(tokenConverter).serialize(token);
         verify(aesGcmCryptographerService).encrypt(encodedToken, recipientOIN);
     }
 
@@ -120,13 +120,13 @@ class WsGetTokenResponseMapperTest {
             .creationDate(creationDate)
             .recipientOIN(recipientOIN)
             .build();
-        when(tokenConverter.encode(token)).thenReturn(encodedToken);
+        when(tokenConverter.serialize(token)).thenReturn(encodedToken);
         when(aesGcmCryptographerService.encrypt(encodedToken, recipientOIN)).thenThrow(
             new RuntimeException("Unexpected error"));
         // WHEN & THEN
         assertThrows(RuntimeException.class,
             () -> wsGetTokenResponseMapper.map(bsn, creationDate, recipientOIN));
-        verify(tokenConverter).encode(token);
+        verify(tokenConverter).serialize(token);
         verify(aesGcmCryptographerService).encrypt(encodedToken, recipientOIN);
     }
 }

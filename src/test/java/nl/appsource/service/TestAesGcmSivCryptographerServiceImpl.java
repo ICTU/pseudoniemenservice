@@ -11,31 +11,40 @@ import nl.appsource.utils.Base64Wrapper;
 import nl.appsource.utils.MessageDigestWrapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Class for testing {@link AesGcmSivCryptographerService}
  */
 @Slf4j
-@ActiveProfiles("test")
-class TestAesGcmSivCryptographerService {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {Base64Wrapper.class, ObjectMapper.class, AesGcmSivCryptographerServiceImpl.class, IdentifierConverter.class, MessageDigestWrapper.class, TestAesGcmSivCryptographerServiceImpl.TestConfiguration.class})
+class TestAesGcmSivCryptographerServiceImpl {
 
-    private final AesGcmSivCryptographerService aesGcmSivCryptographerService = new AesGcmSivCryptographerServiceImpl(
-        new PseudoniemenServiceProperties().setIdentifierPrivateKey(
-            "QTBtVEhLN3EwMHJ3QXN1ZUFqNzVrT3hDQTBIWWNIZTU="),
-        new MessageDigestWrapper(),
-        new IdentifierConverter(new ObjectMapper()),
-        new Base64Wrapper()
-    );
-    private final Set<String> testStrings = new HashSet<>(
-        Arrays.asList("a", "bb", "dsv", "ghad", "dhaht", "uDg5Av", "d93fdvv", "dj83hzHo",
-            "38iKawKv9", "dk(gkzm)Mh", "gjk)s3$g9cQ"));
+    @Autowired
+    private AesGcmSivCryptographerService aesGcmSivCryptographerService;
+
+    private final Set<String> testStrings = new HashSet<>(Arrays.asList("a", "bb", "dsv", "ghad", "dhaht", "uDg5Av", "d93fdvv", "dj83hzHo", "38iKawKv9", "dk(gkzm)Mh", "gjk)s3$g9cQ"));
+
+    @org.springframework.boot.test.context.TestConfiguration
+    static class TestConfiguration {
+        @Bean
+        public PseudoniemenServiceProperties pseudoniemenServiceProperties() {
+            return new PseudoniemenServiceProperties()
+                .setTokenPrivateKey("i4dfBykN5Fjw9p3ADxvpRUhpbFSXepRSOcRGuaiJ4iQ=")
+                .setIdentifierPrivateKey("b2RPRGh6aThiMmluVEpMWVVJM2lOTGlWekVCU2hDMEU=");
+        }
+    }
 
     @Test
     @DisplayName("""
@@ -48,13 +57,9 @@ class TestAesGcmSivCryptographerService {
         testStrings.forEach(plain -> {
             try {
                 // GIVEN
-                final var crypted = aesGcmSivCryptographerService.encrypt(Identifier.builder()
-                        .bsn(plain)
-                        .build(),
-                    "helloHowAreyo12345678");
+                final var crypted = aesGcmSivCryptographerService.encrypt(Identifier.builder().bsn(plain).build(), "helloHowAreyo12345678");
                 // WHEN
-                final var actual = aesGcmSivCryptographerService.decrypt(crypted,
-                    "helloHowAreyo12345678");
+                final var actual = aesGcmSivCryptographerService.decrypt(crypted, "helloHowAreyo12345678");
                 // THEN
                 assertThat(actual.getBsn()).isEqualTo(plain);
             } catch (final Exception e) {

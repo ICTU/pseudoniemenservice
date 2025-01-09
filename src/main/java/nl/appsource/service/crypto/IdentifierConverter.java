@@ -24,7 +24,7 @@ public class IdentifierConverter {
      * @return the JSON string representation of the given Identifier object
      * @throws IOException if an I/O error occurs during encoding
      */
-    public String encode(final Identifier identifier) throws IOException {
+    public String serialize(final Identifier identifier) throws IOException {
 
         final StringWriter stringWriter = new StringWriter();
         objectMapper.writeValue(stringWriter, identifier);
@@ -38,7 +38,7 @@ public class IdentifierConverter {
      * @return the deserialized Identifier object
      * @throws JsonProcessingException if an error occurs while processing the JSON string
      */
-    public Identifier decode(final String encodedIdentifier) throws JsonProcessingException {
+    public Identifier deSerialize(final String encodedIdentifier) throws JsonProcessingException {
 
         return objectMapper.readValue(encodedIdentifier, Identifier.class);
     }

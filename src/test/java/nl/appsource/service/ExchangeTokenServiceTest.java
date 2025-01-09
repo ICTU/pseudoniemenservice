@@ -71,7 +71,7 @@ class ExchangeTokenServiceTest {
             .build();
         // Stubbing dependencies
         when(aesGcmCryptographerService.decrypt(encryptedToken, callerOIN)).thenReturn(decodedToken);
-        when(tokenConverter.decode(decodedToken)).thenReturn(mockToken);
+        when(tokenConverter.deSerialize(decodedToken)).thenReturn(mockToken);
         when(oinValidator.isValid(callerOIN, mockToken)).thenReturn(true);
         var expectedResponse = mock(WsExchangeTokenResponse.class);
         when(bsnTokenMapper.map(mockToken)).thenReturn(expectedResponse);
@@ -79,7 +79,7 @@ class ExchangeTokenServiceTest {
         final var actualResponse = exchangeTokenService.exchangeToken(callerOIN, request);
         // THEN
         verify(aesGcmCryptographerService).decrypt(encryptedToken, callerOIN);
-        verify(tokenConverter).decode(decodedToken);
+        verify(tokenConverter).deSerialize(decodedToken);
         verify(oinValidator).isValid(callerOIN, mockToken);
         verify(bsnTokenMapper).map(mockToken);
         assertEquals(expectedResponse, actualResponse);
@@ -99,7 +99,7 @@ class ExchangeTokenServiceTest {
             .build();
         // Stubbing dependencies
         when(aesGcmCryptographerService.decrypt(encryptedToken, callerOIN)).thenReturn(decodedToken);
-        when(tokenConverter.decode(decodedToken)).thenReturn(mockToken);
+        when(tokenConverter.deSerialize(decodedToken)).thenReturn(mockToken);
         when(oinValidator.isValid(callerOIN, mockToken)).thenReturn(true);
         final var expectedResponse = mock(WsExchangeTokenResponse.class);
         when(organisationPseudoTokenMapper.map(callerOIN, mockToken)).thenReturn(expectedResponse);
@@ -107,7 +107,7 @@ class ExchangeTokenServiceTest {
         final var actualResponse = exchangeTokenService.exchangeToken(callerOIN, request);
         // THEN
         verify(aesGcmCryptographerService).decrypt(encryptedToken, callerOIN);
-        verify(tokenConverter).decode(decodedToken);
+        verify(tokenConverter).deSerialize(decodedToken);
         verify(oinValidator).isValid(callerOIN, mockToken);
         verify(organisationPseudoTokenMapper).map(callerOIN, mockToken);
         assertEquals(expectedResponse, actualResponse);
@@ -127,12 +127,12 @@ class ExchangeTokenServiceTest {
             .build();
         // Stubbing dependencies
         when(aesGcmCryptographerService.decrypt(encryptedToken, callerOIN)).thenReturn(decodedToken);
-        when(tokenConverter.decode(decodedToken)).thenReturn(mockToken);
+        when(tokenConverter.deSerialize(decodedToken)).thenReturn(mockToken);
         when(oinValidator.isValid(callerOIN, mockToken)).thenReturn(false); // Invalid OIN
         // WHEN & THEN
         assertThrows(InvalidOINException.class, () -> exchangeTokenService.exchangeToken(callerOIN, request));
         verify(aesGcmCryptographerService).decrypt(encryptedToken, callerOIN);
-        verify(tokenConverter).decode(decodedToken);
+        verify(tokenConverter).deSerialize(decodedToken);
         verify(oinValidator).isValid(callerOIN, mockToken);
         verifyNoInteractions(bsnTokenMapper, organisationPseudoTokenMapper);
     }

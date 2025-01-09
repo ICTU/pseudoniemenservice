@@ -45,7 +45,7 @@ public class WsGetTokenResponseMapper {
         throws IOException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
 
         return WsGetTokenResponse.builder()
-            .token(aesGcmCryptographerService.encrypt(tokenConverter.encode(Token.builder()
+            .token(aesGcmCryptographerService.encrypt(tokenConverter.serialize(Token.builder()
                 .version(V_1)
                 .bsn(bsn)
                 .creationDate(creationDate)

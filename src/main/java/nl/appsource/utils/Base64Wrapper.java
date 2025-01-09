@@ -9,8 +9,8 @@ import java.util.Base64.Encoder;
 @Component
 public final class Base64Wrapper {
 
-    public static final Decoder DECODER = Base64.getDecoder();
-    public static final Encoder ENCODER = Base64.getEncoder();
+    private static final Decoder DECODER = Base64.getDecoder();
+    private static final Encoder ENCODER = Base64.getEncoder();
 
     /**
      * Decodes a Base64-encoded string into its original byte array representation.

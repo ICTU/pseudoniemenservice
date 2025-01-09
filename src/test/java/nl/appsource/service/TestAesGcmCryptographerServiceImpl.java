@@ -1,5 +1,6 @@
 package nl.appsource.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
 import nl.appsource.service.crypto.AesGcmCryptographerService;
@@ -8,7 +9,11 @@ import nl.appsource.utils.Base64Wrapper;
 import nl.appsource.utils.MessageDigestWrapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,15 +25,23 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Class for testing {@link AesGcmCryptographerServiceImpl}
  */
 @Slf4j
-@ActiveProfiles("test")
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {Base64Wrapper.class, ObjectMapper.class, AesGcmCryptographerServiceImpl.class, MessageDigestWrapper.class, TestAesGcmCryptographerServiceImpl.TestConfiguration.class})
 class TestAesGcmCryptographerServiceImpl {
 
-    private final AesGcmCryptographerService aesGcmCryptographerService = new AesGcmCryptographerServiceImpl(
-        new Base64Wrapper(),
-        new MessageDigestWrapper(),
-        new PseudoniemenServiceProperties().setTokenPrivateKey(
-            "bFUyS1FRTVpON0pCSFFRRGdtSllSeUQ1MlRna2txVmI=")
-    );
+    @Autowired
+    private AesGcmCryptographerService aesGcmCryptographerService;
+
+    @org.springframework.boot.test.context.TestConfiguration
+    static class TestConfiguration {
+        @Bean
+        public PseudoniemenServiceProperties pseudoniemenServiceProperties() {
+            return new PseudoniemenServiceProperties()
+                .setTokenPrivateKey("i4dfBykN5Fjw9p3ADxvpRUhpbFSXepRSOcRGuaiJ4iQ=")
+                .setIdentifierPrivateKey("b2RPRGh6aThiMmluVEpMWVVJM2lOTGlWekVCU2hDMEU=");
+        }
+    }
+
     private final Set<String> testStrings = new HashSet<>(
         Arrays.asList("a", "bb", "dsv", "ghad", "dhaht", "uDg5Av", "d93fdvv", "dj83hzHo",
             "38iKawKv9", "dk(gkzm)Mh", "gjk)s3$g9cQ"));

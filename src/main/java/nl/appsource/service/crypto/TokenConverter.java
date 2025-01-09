@@ -24,7 +24,7 @@ public class TokenConverter {
      * @return the JSON string representation of the given Token object
      * @throws IOException if an I/O error occurs during encoding
      */
-    public String encode(final Token token) throws IOException {
+    public String serialize(final Token token) throws IOException {
 
         final var stringWriter = new StringWriter();
         objectMapper.writeValue(stringWriter, token);
@@ -38,7 +38,7 @@ public class TokenConverter {
      * @return the decoded Token object
      * @throws JsonProcessingException if the JSON string cannot be parsed into a Token object
      */
-    public Token decode(final String encodedToken) throws JsonProcessingException {
+    public Token deSerialize(final String encodedToken) throws JsonProcessingException {
 
         return objectMapper.readValue(encodedToken, Token.class);
     }

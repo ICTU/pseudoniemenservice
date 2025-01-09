@@ -91,7 +91,7 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
             pseudoniemenServiceProperties.getTokenPrivateKey());
         final var saltBytes = salt.getBytes(StandardCharsets.UTF_8);
         final var salterSecretBytes = ByteArrayUtil.concat(keyBytes, saltBytes);
-        final var key = messageDigestWrapper.getMessageDigestInstance().digest(salterSecretBytes);
+        final var key = messageDigestWrapper.instance().digest(salterSecretBytes);
         return new SecretKeySpec(key, "AES");
     }
 

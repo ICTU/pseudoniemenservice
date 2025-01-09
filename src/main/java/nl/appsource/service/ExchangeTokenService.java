@@ -45,7 +45,7 @@ public final class ExchangeTokenService {
 
         final var encodedToken = aesGcmCryptographerService.decrypt(
             wsExchangeTokenForIdentifierRequest.getToken(), callerOIN);
-        final var token = tokenConverter.decode(encodedToken);
+        final var token = tokenConverter.deSerialize(encodedToken);
         if (!oinValidator.isValid(callerOIN, token)) {
             throw new InvalidOINException("CallerOIN and token are mismatched.");
         }
