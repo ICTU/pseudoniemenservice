@@ -77,7 +77,3 @@ jobs:
             --publish \
             --env BP_NATIVE_IMAGE=true \
             --env BP_MAVEN_ACTIVE_PROFILES=native
-
-      - name: Build and push Docker image
-        run: |
-          docker push yourusername/yourimage:latest-${{ matrix.platform }}
