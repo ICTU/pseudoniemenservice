@@ -71,9 +71,13 @@ jobs:
 
       - name: Build and publish OCI image
         run: |
-          pack build ghcr.io/bhuism/pseudoniemenservice \
+          pack build ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }} \
             --builder docker.io/paketobuildpacks/builder-jammy-buildpackless-tiny \
             --buildpack gcr.io/paketo-buildpacks/java-native-image \
             --publish \
             --env BP_NATIVE_IMAGE=true \
             --env BP_MAVEN_ACTIVE_PROFILES=native
+
+      - name: Build and push Docker image
+        run: |
+          docker push yourusername/yourimage:latest-${{ matrix.platform }}
