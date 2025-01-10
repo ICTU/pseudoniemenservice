@@ -23,7 +23,7 @@
         <pit.coverageThreshold>75</pit.coverageThreshold>
         <pit.mutationThreshold>75</pit.mutationThreshold>
         <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
-        <pitest-maven.version>1.17.3</pitest-maven.version>
+        <pitest-maven.version>1.17.4</pitest-maven.version>
     </properties>
     <dependencies>
         <dependency>
