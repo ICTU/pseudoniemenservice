@@ -58,7 +58,7 @@ jobs:
           images: ghcr.io/bhuism/pseudoniemenservice
 
       - name: Set up Pack
-        uses: buildpacks/github-actions/setup-pack@v5.8.5
+        uses: buildpacks/github-actions/setup-pack@v5.8.6
         with:
           pack-version: 0.35.1
 
