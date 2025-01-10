@@ -93,5 +93,5 @@ jobs:
       - name: merge containers and push
         run: |
           docker manifest create ghcr.io/bhuism/pseudoniemenservice:latest \
-            ghcr.io/bhuism/pseudoniemenservice:latest-amd64 ghcr.io/bhuism/pseudoniemenservice:latest-arm64 \          
+            ghcr.io/bhuism/pseudoniemenservice:latest-amd64 ghcr.io/bhuism/pseudoniemenservice:latest-arm64
           docker manifest push ghcr.io/bhuism/pseudoniemenservice:latest
