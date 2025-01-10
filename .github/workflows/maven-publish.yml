@@ -85,7 +85,7 @@ jobs:
     needs: build
     if: success()
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download build' artifacts
         uses: actions/download-artifact@v3
