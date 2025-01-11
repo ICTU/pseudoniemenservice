@@ -74,7 +74,7 @@ jobs:
       - name: Build and publish OCI image
         run: |
           pack build ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }} \
-            --builder heroku/builder:24 \
+            --builder docker.io/paketobuildpacks/builder-jammy-buildpackless-tiny \
             --buildpack gcr.io/paketo-buildpacks/java-native-image \
             --publish \
             --platform linux/${{ matrix.platform }} \
