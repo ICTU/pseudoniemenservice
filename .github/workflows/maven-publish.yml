@@ -25,6 +25,12 @@ jobs:
 #
 #      - name: Test with Maven
 #        run: mvn -Ppitest -B verify
+  testarch:
+    runs-on: buildjet-4vcpu-ubuntu-2204
+    name: Test
+    steps:
+      - name: print arch
+        run: uname -a
 
   build:
     if: github.event_name != 'pull_request'
@@ -37,7 +43,7 @@ jobs:
             runner: ubuntu-latest
             javaarch: x64
           - platform: arm64
-            runner: buildjet-2vcpu-ubuntu-2204
+            runner: buildjet-4vcpu-ubuntu-2204
             javaarch: aarch64
     runs-on: ${{ matrix.runner }}
 
