@@ -24,7 +24,7 @@ jobs:
           cache: maven
 
       - name: Test with Maven
-        run: mvn -Ppitest --batch-mode --update-snapshots verify
+        run: mvn -Ppitest -B verify
 
   build:
     runs-on: ${{ matrix.runner }}
