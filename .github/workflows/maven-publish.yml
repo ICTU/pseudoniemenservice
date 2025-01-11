@@ -27,7 +27,6 @@ jobs:
         run: mvn -Ppitest -B verify
 
   build:
-    runs-on: ${{ matrix.runner }}
     if: github.event_name != 'pull_request'
     strategy:
       fail-fast: true
@@ -40,6 +39,7 @@ jobs:
           - platform: arm64
             runner: buildjet-2vcpu-ubuntu-2204
             javaarch: aarch64
+    runs-on: ${{ matrix.runner }}
 
     needs:
       - test
@@ -51,6 +51,8 @@ jobs:
       id-token: write
 
     steps:
+      - name: print arch
+        run: uname -a
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,7 +82,6 @@ jobs:
 
       - name: Buid and publish image via spring build-image
         run: |
-          uname -a
           mvn -B -DskipTests spring-boot:build-image -Dspring-boot.build-image.imagePlatform=linux/${{ matrix.platform }} -Dspring-boot.build-image.imageName=ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }}
 
 #      - name: Set up Pack
