@@ -53,6 +53,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'liberica'
+          java-version: '21'
+          cache: 'maven'
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -66,20 +73,24 @@ jobs:
         with:
           images: ghcr.io/bhuism/pseudoniemenservice
 
-      - name: Set up Pack
-        uses: buildpacks/github-actions/setup-pack@v5.8.6
-        with:
-          pack-version: 0.35.1
+      - name: Buid and publish image via spring build-image
+        run: mvn -B -DskipTests spring-boot:build-image -Dspring-boot.build-image.imagePlatform=linux/${{ matrix.platform }} -Dspring-boot.build-image.imageName=ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }}
 
-      - name: Build and publish OCI image
-        run: |
-          pack build ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }} \
-            --builder docker.io/paketobuildpacks/builder-jammy-buildpackless-tiny \
-            --buildpack gcr.io/paketo-buildpacks/java-native-image \
-            --publish \
-            --platform linux/${{ matrix.platform }} \
-            --env BP_NATIVE_IMAGE=true \
-            --env BP_MAVEN_ACTIVE_PROFILES=native
+#      - name: Set up Pack
+#        uses: buildpacks/github-actions/setup-pack@v5.8.6
+#        with:
+#          pack-version: 0.35.1
+#
+#      - name: Build and publish image via pack
+#        run: |
+#          pack build ghcr.io/bhuism/pseudoniemenservice:latest-ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }} \
+#            --builder docker.io/paketobuildpacks/builder-jammy-buildpackless-tiny \
+#            --buildpack gcr.io/paketo-buildpacks/java-native-image \
+#            --publish \
+#            --platform linux/${{ matrix.platform }} \
+#            --env BP_NATIVE_IMAGE=true \
+#            --env BP_MAVEN_ACTIVE_PROFILES=native
+
 
   manifest-and-push:
     runs-on: ubuntu-latest
