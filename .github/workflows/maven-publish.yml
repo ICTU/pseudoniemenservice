@@ -7,24 +7,24 @@ on:
     branches: [ "development" ]
 
 jobs:
-#  test:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#
-#      - name: Setup  Java
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '21'
-#          distribution: 'liberica'
-#          cache: maven
-#
-#      - name: Test with Maven
-#        run: mvn -Ppitest -B verify
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup  Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'liberica'
+          cache: maven
+
+      - name: Test with Maven
+        run: mvn -Ppitest -B verify
   
   build:
     if: github.event_name != 'pull_request'
@@ -41,8 +41,8 @@ jobs:
             javaarch: aarch64
     runs-on: ${{ matrix.runner }}
 
-#    needs:
-#      - test
+    needs:
+      - test
 
     permissions:
       contents: read
