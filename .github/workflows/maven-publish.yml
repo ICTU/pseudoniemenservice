@@ -25,13 +25,7 @@ jobs:
 #
 #      - name: Test with Maven
 #        run: mvn -Ppitest -B verify
-  testarch:
-    runs-on: buildjet-2vcpu-ubuntu-2204-arm
-    name: Test
-    steps:
-      - name: print arch
-        run: uname -a
-
+  
   build:
     if: github.event_name != 'pull_request'
     strategy:
@@ -78,32 +72,32 @@ jobs:
         with:
           images: ghcr.io/bhuism/pseudoniemenservice
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'liberica'
-          architecture: ${{ matrix.javaarch }}
-          java-version: '21'
-          cache: 'maven'
-
-      - name: Buid and publish image via spring build-image
-        run: |
-          mvn -B -DskipTests spring-boot:build-image -Dspring-boot.build-image.imagePlatform=linux/${{ matrix.platform }} -Dspring-boot.build-image.imageName=ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }}
-
-#      - name: Set up Pack
-#        uses: buildpacks/github-actions/setup-pack@v5.8.6
+#      - name: Setup Java
+#        uses: actions/setup-java@v4
 #        with:
-#          pack-version: 0.35.1
-#
-#      - name: Build and publish image via pack
+#          distribution: 'liberica'
+#          architecture: ${{ matrix.javaarch }}
+#          java-version: '21'
+#          cache: 'maven'
+
+#      - name: Buid and publish image via spring build-image
 #        run: |
-#          pack build ghcr.io/bhuism/pseudoniemenservice:latest-ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }} \
-#            --builder docker.io/paketobuildpacks/builder-jammy-buildpackless-tiny \
-#            --buildpack gcr.io/paketo-buildpacks/java-native-image \
-#            --publish \
-#            --platform linux/${{ matrix.platform }} \
-#            --env BP_NATIVE_IMAGE=true \
-#            --env BP_MAVEN_ACTIVE_PROFILES=native
+#          mvn --no-transfer-progress -B -DskipTests spring-boot:build-image -Dspring-boot.build-image.imagePlatform=linux/${{ matrix.platform }} -Dspring-boot.build-image.imageName=ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }}
+
+      - name: Set up Pack
+        uses: buildpacks/github-actions/setup-pack@v5.8.6
+        with:
+          pack-version: 0.35.1
+
+      - name: Build and publish image via pack
+        run: |
+          pack build ghcr.io/bhuism/pseudoniemenservice:latest-ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }} \
+            --builder docker.io/paketobuildpacks/builder-jammy-buildpackless-tiny \
+            --buildpack gcr.io/paketo-buildpacks/java-native-image \
+            --publish \
+            --platform linux/${{ matrix.platform }} \
+            --env BP_NATIVE_IMAGE=true \
+            --env BP_MAVEN_ACTIVE_PROFILES=native
 
 
   manifest-and-push:
