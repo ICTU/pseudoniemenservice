@@ -55,6 +55,8 @@ components:
       schema:
         $ref: '#/components/schemas/oin'
   schemas:
+    scope:
+      type: object
     token:
       nullable: false
       type: string
@@ -127,6 +129,8 @@ components:
                 $ref: '#/components/schemas/identifier'
               recipientOIN:
                 $ref: '#/components/schemas/oin'
+              scope:
+                $ref: '#/components/schemas/scope'
     exchangeTokenRequest:
       required: true
       content:
@@ -137,6 +141,8 @@ components:
                 $ref: '#/components/schemas/token'
               identifierType:
                 $ref: '#/components/schemas/identifierTypes'
+              scope:
+                $ref: '#/components/schemas/scope'
     exchangeIdentifierRequest:
       required: true
       content:
@@ -149,3 +155,5 @@ components:
                 $ref: '#/components/schemas/oin'
               recipientIdentifierType:
                 $ref: '#/components/schemas/identifierTypes'
+              scope:
+                $ref: '#/components/schemas/scope'

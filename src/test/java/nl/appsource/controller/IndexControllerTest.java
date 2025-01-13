@@ -1,5 +1,6 @@
 package nl.appsource.controller;
 
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +21,8 @@ class IndexControllerTest {
         When performing a GET request
         Then the response redirects to Swagger UI
         """)
-    void testRedirectToSwaggerUi() throws Exception {
+    @SneakyThrows
+    void testRedirectToSwaggerUi() {
         // WHEN & THEN
         mockMvc.perform(
                 org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/"))

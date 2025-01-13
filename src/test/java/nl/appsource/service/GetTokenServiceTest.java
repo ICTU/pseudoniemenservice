@@ -1,5 +1,6 @@
 package nl.appsource.service;
 
+import lombok.SneakyThrows;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes;
@@ -49,7 +50,8 @@ class GetTokenServiceTest {
         When getWsGetTokenResponse() is called
         Then it should return a valid response
         """)
-    void testGetWsGetTokenResponse_ValidInput() throws Exception {
+    @SneakyThrows
+    void testGetWsGetTokenResponse_ValidInput() {
         // GIVEN
         final var identifier = WsIdentifier.builder()
             .type(WsIdentifierTypes.BSN)
@@ -76,6 +78,7 @@ class GetTokenServiceTest {
         When getWsGetTokenResponse() is called
         Then it should throw WsGetTokenProcessingException with the correct message
         """)
+    @SneakyThrows
     void testGetWsGetTokenResponse_UnexpectedError() {
         // GIVEN
         final var identifier = WsIdentifier.builder()

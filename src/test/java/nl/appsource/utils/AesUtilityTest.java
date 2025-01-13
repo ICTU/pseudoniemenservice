@@ -1,5 +1,6 @@
 package nl.appsource.utils;
 
+import lombok.SneakyThrows;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,8 +61,8 @@ class AesUtilityTest {
         When creating a Cipher instance using AesUtility.createCipher()
         Then the resulting Cipher should be of type AES/GCM/NoPadding
         """)
-    void createCipher_ShouldReturnAesGcmNoPadding()
-        throws NoSuchPaddingException, NoSuchAlgorithmException {
+    @SneakyThrows
+    void createCipher_ShouldReturnAesGcmNoPadding() {
         // WHEN
         final var cipher = AesUtility.createCipher();
         // THEN

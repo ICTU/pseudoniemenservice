@@ -1,5 +1,6 @@
 package nl.appsource.service;
 
+import lombok.SneakyThrows;
 import nl.appsource.model.Token;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
@@ -63,7 +64,8 @@ class ExchangeTokenServiceTest {
         When exchangeToken() is called
         Then it should return a valid response mapped by BsnTokenMapper
         """)
-    void testExchangeToken_BsnIdentifier() throws Exception {
+    @SneakyThrows
+    void testExchangeToken_BsnIdentifier() {
         // GIVEN
         final var request = WsExchangeTokenRequest.builder()
             .token(encryptedToken)
@@ -91,7 +93,8 @@ class ExchangeTokenServiceTest {
         When exchangeToken() is called
         Then it should return a valid response mapped by OrganisationPseudoTokenMapper
         """)
-    void testExchangeToken_OrganisationPseudoIdentifier() throws Exception {
+    @SneakyThrows
+    void testExchangeToken_OrganisationPseudoIdentifier() {
         // GIVEN
         final var request = WsExchangeTokenRequest.builder()
             .token(encryptedToken)
@@ -119,7 +122,8 @@ class ExchangeTokenServiceTest {
         When exchangeToken() is called
         Then it should throw InvalidOINException
         """)
-    void testExchangeToken_InvalidOIN() throws Exception {
+    @SneakyThrows
+    void testExchangeToken_InvalidOIN() {
         // GIVEN
         final var request = WsExchangeTokenRequest.builder()
             .token(encryptedToken)

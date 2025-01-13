@@ -1,6 +1,7 @@
 package nl.appsource.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
 import nl.appsource.model.Identifier;
@@ -74,7 +75,8 @@ class TestAesGcmSivCryptographerServiceImpl {
         When encrypting the message twice
         Then the resulting ciphertexts should be the same due to SIV mode
         """)
-    void testCiphertextIsTheSameForSamePlaintext() throws Exception {
+    @SneakyThrows
+    void testCiphertextIsTheSameForSamePlaintext() {
         // GIVEN
         final var plaintext = "This is a test message to ensure ciphertext is different!";
         final var identifier = Identifier.builder().bsn(plaintext).build();

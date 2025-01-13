@@ -1,7 +1,7 @@
 package nl.appsource.service.crypto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
 import nl.appsource.model.Identifier;
@@ -83,9 +83,8 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
      * @param salt             a string used to derive the nonce and key for decryption
      * @return the decrypted {@code Identifier} object
      */
-    @SneakyThrows
     @Override
-    public Identifier decrypt(final String ciphertextString, final String salt) {
+    public Identifier decrypt(final String ciphertextString, final String salt) throws InvalidCipherTextException, JsonProcessingException {
 
         final var cipher = new GCMSIVBlockCipher(AesUtility.getAESEngine());
         cipher.init(false, createSecretKey(salt));

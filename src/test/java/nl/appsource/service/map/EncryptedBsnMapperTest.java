@@ -1,5 +1,6 @@
 package nl.appsource.service.map;
 
+import lombok.SneakyThrows;
 import nl.appsource.model.Identifier;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +27,7 @@ class EncryptedBsnMapperTest {
         When decryption succeeds
         Then the decrypted BSN is returned
         """)
+    @SneakyThrows
     void map_WhenDecryptSucceeds_ShouldReturnDecryptedBsn() {
         // GIVEN
         final var encryptedBsn = "someEncryptedValue";

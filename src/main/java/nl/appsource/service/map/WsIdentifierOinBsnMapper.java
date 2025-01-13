@@ -1,7 +1,9 @@
 package nl.appsource.service.map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +22,7 @@ public class WsIdentifierOinBsnMapper {
      * @return the mapped value of the identifier based on its type
      * @throws IllegalArgumentException if the identifier type is unsupported
      */
-    public String map(final WsIdentifier identifier, final String recipientOIN) {
+    public String map(final WsIdentifier identifier, final String recipientOIN) throws InvalidCipherTextException, JsonProcessingException {
 
         final String bsnValue = identifier.getValue();
         switch (identifier.getType()) {

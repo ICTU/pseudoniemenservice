@@ -1,5 +1,6 @@
 package nl.appsource.service.map;
 
+import lombok.SneakyThrows;
 import nl.appsource.model.Identifier;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
@@ -32,7 +33,8 @@ class PseudoBsnMapperTest {
         When decryption succeeds
         Then the response should contain the decrypted BSN
         """)
-    void map_WhenDecryptionSucceeds_ShouldReturnDecryptedBsn() throws Exception {
+    @SneakyThrows
+    void map_WhenDecryptionSucceeds_ShouldReturnDecryptedBsn() {
         // GIVEN
         var pseudo = "someEncryptedString";
         var oin = "TEST_OIN";

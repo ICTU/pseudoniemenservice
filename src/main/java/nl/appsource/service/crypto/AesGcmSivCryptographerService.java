@@ -1,6 +1,6 @@
 package nl.appsource.service.crypto;
 
-import lombok.SneakyThrows;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.appsource.model.Identifier;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.params.AEADParameters;
@@ -13,6 +13,5 @@ public interface AesGcmSivCryptographerService {
     String encrypt(Identifier identifier, String salt)
         throws InvalidCipherTextException, IOException;
 
-    @SneakyThrows
-    Identifier decrypt(String ciphertextString, String salt);
+    Identifier decrypt(String ciphertextString, String salt) throws InvalidCipherTextException, JsonProcessingException;
 }

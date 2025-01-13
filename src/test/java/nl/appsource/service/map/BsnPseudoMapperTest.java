@@ -1,5 +1,6 @@
 package nl.appsource.service.map;
 
+import lombok.SneakyThrows;
 import nl.appsource.model.Identifier;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
 import org.bouncycastle.crypto.InvalidCipherTextException;
@@ -34,7 +35,8 @@ class BsnPseudoMapperTest {
         When encryption succeeds
         Then a valid WsExchangeIdentifierResponse is returned
         """)
-    void map_WhenEncryptionSucceeds_ShouldReturnWsExchangeIdentifierResponse() throws Exception {
+    @SneakyThrows
+    void map_WhenEncryptionSucceeds_ShouldReturnWsExchangeIdentifierResponse() {
         // GIVEN
         final var bsn = "123456789";
         final var oin = "OIN_X";
@@ -56,7 +58,8 @@ class BsnPseudoMapperTest {
         When encryption throws IOException
         Then an IOException is thrown
         """)
-    void map_WhenEncryptThrowsIOException_ShouldThrowIOException() throws Exception {
+    @SneakyThrows
+    void map_WhenEncryptThrowsIOException_ShouldThrowIOException() {
         // GIVEN
         final var bsn = "987654321";
         final var oin = "OIN_IO";
@@ -72,8 +75,8 @@ class BsnPseudoMapperTest {
         When encryption throws InvalidCipherTextException
         Then an InvalidCipherTextException is thrown
         """)
-    void map_WhenEncryptThrowsInvalidCipherTextException_ShouldThrowInvalidCipherTextException()
-        throws Exception {
+    @SneakyThrows
+    void map_WhenEncryptThrowsInvalidCipherTextException_ShouldThrowInvalidCipherTextException() {
         // GIVEN
         final var bsn = "111222333";
         final var oin = "OIN_CIPHER";

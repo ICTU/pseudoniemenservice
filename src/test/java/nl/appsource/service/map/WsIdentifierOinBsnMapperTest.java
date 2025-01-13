@@ -1,5 +1,6 @@
 package nl.appsource.service.map;
 
+import lombok.SneakyThrows;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ class WsIdentifierOinBsnMapperTest {
         When the map() method is called
         Then the BSN value should be returned directly
         """)
+    @SneakyThrows
     void testMap_BsnType() {
         // GIVEN
         final var bsnValue = "987654321";
@@ -47,6 +49,7 @@ class WsIdentifierOinBsnMapperTest {
         When the map() method is called
         Then the encrypted value should be returned
         """)
+    @SneakyThrows
     void testMap_OrganisationPseudoType() {
         // GIVEN
         final var bsnValue = "987654321";

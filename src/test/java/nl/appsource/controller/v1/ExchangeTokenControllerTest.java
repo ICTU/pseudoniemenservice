@@ -1,6 +1,7 @@
 package nl.appsource.controller.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
@@ -40,7 +41,8 @@ class ExchangeTokenControllerTest {
         When calling exchangeToken()
         Then it returns 200 OK with the expected identifier in the response
         """)
-    void exchangeToken_ShouldReturnOk() throws Exception {
+    @SneakyThrows
+    void exchangeToken_ShouldReturnOk() {
         // GIVEN: a request payload
         final var requestPayload = WsExchangeTokenRequest.builder()
             .token("testToken")
@@ -72,7 +74,8 @@ class ExchangeTokenControllerTest {
         When calling exchangeToken()
         Then it returns 422 UNPROCESSABLE_ENTITY with the appropriate error
         """)
-    void exchangeToken_ShouldReturnUnprocessableEntity() throws Exception {
+    @SneakyThrows
+    void exchangeToken_ShouldReturnUnprocessableEntity() {
         // GIVEN: a request payload
         final var requestPayload = WsExchangeTokenRequest.builder()
             .token("testToken").identifierType(WsIdentifierTypes.ORGANISATION_PSEUDO)

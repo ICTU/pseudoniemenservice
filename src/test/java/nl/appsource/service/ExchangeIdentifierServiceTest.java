@@ -1,5 +1,6 @@
 package nl.appsource.service;
 
+import lombok.SneakyThrows;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
@@ -39,7 +40,8 @@ class ExchangeIdentifierServiceTest {
         When exchangeIdentifier() is called
         Then it should return a response with ORGANISATION_PSEUDO type and encrypted value
         """)
-    void testExchangeIdentifier_BsnToOrgPseudo() throws Exception {
+    @SneakyThrows
+    void testExchangeIdentifier_BsnToOrgPseudo() {
         // GIVEN
         var request = WsExchangeIdentifierRequest.builder()
             .identifier(WsIdentifier.builder()
@@ -75,7 +77,8 @@ class ExchangeIdentifierServiceTest {
         When exchangeIdentifier() is called
         Then it should return a response with BSN type and decrypted value
         """)
-    void testExchangeIdentifier_OrgPseudoToBsn() throws Exception {
+    @SneakyThrows
+    void testExchangeIdentifier_OrgPseudoToBsn() {
         // GIVEN
         final var request = WsExchangeIdentifierRequest.builder()
             .identifier(WsIdentifier.builder()

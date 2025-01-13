@@ -1,5 +1,6 @@
 package nl.appsource.service.map;
 
+import lombok.SneakyThrows;
 import nl.appsource.model.Identifier;
 import nl.appsource.model.Token;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
@@ -37,7 +38,8 @@ class OrganisationPseudoTokenMapperTest {
         When encryption succeeds
         Then the response should contain the encrypted identifier
         """)
-    void map_WhenEncryptionSucceeds_ShouldReturnEncryptedTokenResponse() throws Exception {
+    @SneakyThrows
+    void map_WhenEncryptionSucceeds_ShouldReturnEncryptedTokenResponse() {
         // GIVEN
         final var callerOIN = "TEST_OIN";
         final var token = Token.builder().bsn("123456789").build();
@@ -59,7 +61,8 @@ class OrganisationPseudoTokenMapperTest {
         When encryption fails with InvalidCipherTextException
         Then an InvalidCipherTextException should be thrown
         """)
-    void map_WhenEncryptionFails_ShouldThrowInvalidCipherTextException() throws Exception {
+    @SneakyThrows
+    void map_WhenEncryptionFails_ShouldThrowInvalidCipherTextException() {
         // GIVEN
         final var callerOIN = "FAILING_OIN";
         final var token = Token.builder().bsn("987654321").build();
@@ -77,7 +80,8 @@ class OrganisationPseudoTokenMapperTest {
         When encryption fails with IOException
         Then an IOException should be thrown
         """)
-    void map_WhenEncryptionThrowsIOException_ShouldThrowIOException() throws Exception {
+    @SneakyThrows
+    void map_WhenEncryptionThrowsIOException_ShouldThrowIOException() {
         // GIVEN
         final var callerOIN = "IO_EXCEPTION_OIN";
         final var token = Token.builder().bsn("555555555").build();

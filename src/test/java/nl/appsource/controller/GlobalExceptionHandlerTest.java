@@ -1,5 +1,6 @@
 package nl.appsource.controller;
 
+import lombok.SneakyThrows;
 import nl.appsource.controller.stub.StubController;
 import nl.appsource.controller.stub.StubService;
 import nl.appsource.service.exception.IdentifierPrivateKeyException;
@@ -38,7 +39,8 @@ class GlobalExceptionHandlerTest {
         When a GET request is made
         Then an internal server error is returned with an appropriate message
         """)
-    void handleGenericException_ShouldReturnInternalServerErrorWithMessage() throws Exception {
+    @SneakyThrows
+    void handleGenericException_ShouldReturnInternalServerErrorWithMessage() {
 
         mockMvc.perform(get("/non-existent-endpoint")) // Assuming no controller is mapped to this
             .andExpect(status().isInternalServerError())

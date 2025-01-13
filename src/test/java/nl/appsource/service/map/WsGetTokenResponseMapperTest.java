@@ -1,5 +1,6 @@
 package nl.appsource.service.map;
 
+import lombok.SneakyThrows;
 import nl.appsource.model.Token;
 import nl.appsource.service.crypto.AesGcmCryptographerService;
 import nl.appsource.service.crypto.TokenConverter;
@@ -41,7 +42,8 @@ class WsGetTokenResponseMapperTest {
         When token encoding and encryption succeed
         Then the response should contain the encrypted token
         """)
-    void testMap_Success() throws Exception {
+    @SneakyThrows
+    void testMap_Success() {
         final var encryptedToken = "encrypted-token";
         // GIVEN
         final var token = Token.builder()
@@ -66,7 +68,8 @@ class WsGetTokenResponseMapperTest {
         When token encoding fails with IOException
         Then an IOException should be thrown
         """)
-    void testMap_EncodingIOException() throws Exception {
+    @SneakyThrows
+    void testMap_EncodingIOException() {
         // GIVEN
         final var token = Token.builder()
             .version(WsGetTokenResponseMapper.V_1)
@@ -88,7 +91,8 @@ class WsGetTokenResponseMapperTest {
         When encryption fails with InvalidKeyException
         Then an InvalidKeyException should be thrown
         """)
-    void testMap_EncryptionError() throws Exception {
+    @SneakyThrows
+    void testMap_EncryptionError() {
         // GIVEN
         final var token = Token.builder()
             .version(WsGetTokenResponseMapper.V_1)
@@ -112,7 +116,8 @@ class WsGetTokenResponseMapperTest {
         When encryption fails with a runtime exception
         Then a RuntimeException should be thrown
         """)
-    void testMap_UnexpectedError() throws Exception {
+    @SneakyThrows
+    void testMap_UnexpectedError() {
         // GIVEN
         final var token = Token.builder()
             .version(WsGetTokenResponseMapper.V_1)

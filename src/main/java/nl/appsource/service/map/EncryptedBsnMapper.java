@@ -1,7 +1,9 @@
 package nl.appsource.service.map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +19,7 @@ public class EncryptedBsnMapper {
      * @param recipientOIN the recipient OIN key used for decryption
      * @return the decrypted business service number
      */
-    public String map(final String bsnValue, final String recipientOIN) {
+    public String map(final String bsnValue, final String recipientOIN) throws InvalidCipherTextException, JsonProcessingException {
 
         final var decodedIdentifier = aesGcmSivCryptographerService.decrypt(bsnValue, recipientOIN);
         return decodedIdentifier.getBsn();

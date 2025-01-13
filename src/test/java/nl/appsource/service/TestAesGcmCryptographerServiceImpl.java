@@ -1,6 +1,7 @@
 package nl.appsource.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
 import nl.appsource.service.crypto.AesGcmCryptographerService;
@@ -74,7 +75,8 @@ class TestAesGcmCryptographerServiceImpl {
         When encrypting the message twice
         Then the resulting ciphertexts should be different due to IV randomness
         """)
-    void testCiphertextIsDifferentForSamePlaintext() throws Exception {
+    @SneakyThrows
+    void testCiphertextIsDifferentForSamePlaintext() {
         // GIVEN
         final var plaintext = "This is a test message to ensure ciphertext is different!";
         // WHEN
