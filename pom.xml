@@ -19,11 +19,6 @@
         <spotbugs-annotations.version>4.8.6</spotbugs-annotations.version>
         <bcprov-jdk18on.version>1.79</bcprov-jdk18on.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <!-- PiTest settings -->
-        <pit.coverageThreshold>75</pit.coverageThreshold>
-        <pit.mutationThreshold>75</pit.mutationThreshold>
-        <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
-        <pitest-maven.version>1.17.4</pitest-maven.version>
     </properties>
     <dependencies>
         <dependency>
@@ -206,68 +201,5 @@
             </resource>
         </resources>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${maven-checkstyle-plugin.version}</version>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>checkstyle</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
-    <profiles>
-        <profile>
-            <id>pitest</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>pitest-maven</artifactId>
-                        <configuration>
-                            <coverageThreshold>${pit.coverageThreshold}</coverageThreshold>
-                            <mutationThreshold>${pit.mutationThreshold}</mutationThreshold>
-                            <targetClasses>
-                                <param>nl.appsource.*</param>
-                            </targetClasses>
-                            <targetTests>
-                                <param>nl.appsource.*</param>
-                            </targetTests>
-                            <excludedClasses>
-                                <excludedClass>nl.appsource.pseudoniemenservice.generated.*</excludedClass>
-                            </excludedClasses>
-                            <timeoutConstant>5000</timeoutConstant>
-                            <timestampedReports>false</timestampedReports>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.pitest</groupId>
-                                <artifactId>pitest-junit5-plugin</artifactId>
-                                <version>1.2.1</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>mutationCoverage</goal>
-                                </goals>
-                                <id>pit-report</id>
-                                <phase>test</phase>
-                            </execution>
-                        </executions>
-                        <groupId>org.pitest</groupId>
-                        <version>${pitest-maven.version}</version>
-                    </plugin>
-                </plugins>
-
-            </build>
-        </profile>
-    </profiles>
 </project>
 

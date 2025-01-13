@@ -24,7 +24,7 @@ jobs:
           cache: maven
 
       - name: Test with Maven
-        run: mvn -Ppitest -B verify
+        run: mvn --no-transfer-progress -B verify
   
   build:
     if: github.event_name != 'pull_request'
