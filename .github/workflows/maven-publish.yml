@@ -24,7 +24,7 @@ jobs:
           cache: maven
 
       - name: Test with Maven
-        run: mvn --no-transfer-progress -B verify
+        run: mvn --no-transfer-progress -B clean verify org.apache.maven.plugins:maven-checkstyle-plugin:check com.github.spotbugs:spotbugs-maven-plugin:check
   
   build:
     if: github.event_name != 'pull_request'
@@ -82,7 +82,7 @@ jobs:
 
       - name: Buid and publish image via spring build-image
         run: |
-          mvn -Pnative --no-transfer-progress -B -DskipTests spring-boot:build-image -Dspring-boot.build-image.imagePlatform=linux/${{ matrix.platform }} -Dspring-boot.build-image.imageName=ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }}
+          mvn -Pnative --no-transfer-progress -B -DskipTests clean spring-boot:build-image -Dspring-boot.build-image.imagePlatform=linux/${{ matrix.platform }} -Dspring-boot.build-image.imageName=ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }}
 
       - name: Push
         run: |
