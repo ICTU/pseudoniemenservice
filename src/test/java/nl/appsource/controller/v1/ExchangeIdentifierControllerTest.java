@@ -20,9 +20,9 @@ import static org.mockito.Mockito.when;
 class ExchangeIdentifierControllerTest {
 
     @Mock
-    private ExchangeIdentifierService service;
+    private ExchangeIdentifierService exchangeIdentifierService;
     @InjectMocks
-    private ExchangeIdentifierController controller;
+    private ExchangeIdentifierController exchangeIdentifierController;
 
     @Test
     @DisplayName("""
@@ -36,12 +36,12 @@ class ExchangeIdentifierControllerTest {
         final String callerOIN = "123456789";
         final WsExchangeIdentifierRequest request = new WsExchangeIdentifierRequest();
         final WsExchangeIdentifierResponse expectedResponse = new WsExchangeIdentifierResponse();
-        when(service.exchangeIdentifier(request)).thenReturn(expectedResponse);
+        when(exchangeIdentifierService.exchangeIdentifier(request)).thenReturn(expectedResponse);
         // WHEN
-        final ResponseEntity<WsExchangeIdentifierResponse> response = controller.exchangeIdentifier(callerOIN, request);
+        final ResponseEntity<WsExchangeIdentifierResponse> response = exchangeIdentifierController.exchangeIdentifier(callerOIN, request);
         // THEN
         assertEquals(ResponseEntity.ok(expectedResponse), response);
-        verify(service).exchangeIdentifier(request); // Ensure service method is called
+        verify(exchangeIdentifierService).exchangeIdentifier(request); // Ensure service method is called
     }
 
     @Test
@@ -56,11 +56,11 @@ class ExchangeIdentifierControllerTest {
         final String callerOIN = "123456789";
         final WsExchangeIdentifierRequest request = new WsExchangeIdentifierRequest();
         final RuntimeException exception = new RuntimeException("Service error");
-        when(service.exchangeIdentifier(request)).thenThrow(exception);
+        when(exchangeIdentifierService.exchangeIdentifier(request)).thenThrow(exception);
         // WHEN
-        final ResponseEntity<WsExchangeIdentifierResponse> response = controller.exchangeIdentifier(callerOIN, request);
+        final ResponseEntity<WsExchangeIdentifierResponse> response = exchangeIdentifierController.exchangeIdentifier(callerOIN, request);
         // THEN
-        assertEquals(ResponseEntity.unprocessableEntity().build(),response);
-        verify(service).exchangeIdentifier(request); // Ensure service method is called
+        assertEquals(ResponseEntity.unprocessableEntity().build(), response);
+        verify(exchangeIdentifierService).exchangeIdentifier(request); // Ensure service method is called
     }
 }
