@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
-import nl.appsource.service.exception.InvalidWsIdentifierRequestTypeException;
 import nl.appsource.service.map.BsnPseudoMapper;
 import nl.appsource.service.map.PseudoBsnMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +42,7 @@ class ExchangeIdentifierServiceTest {
     @SneakyThrows
     void testExchangeIdentifier_BsnToOrgPseudo() {
         // GIVEN
-        var request = WsExchangeIdentifierRequest.builder()
+        WsExchangeIdentifierRequest request = WsExchangeIdentifierRequest.builder()
             .identifier(WsIdentifier.builder()
                 .type(BSN)
                 .value("123456789")
@@ -52,7 +51,7 @@ class ExchangeIdentifierServiceTest {
             .recipientIdentifierType(ORGANISATION_PSEUDO)
             .build();
         // We mock BsnPseudoMapper to return a WsExchangeIdentifierResponse
-        final var mockedResponse = WsExchangeIdentifierResponse.builder()
+        final WsExchangeIdentifierResponse mockedResponse = WsExchangeIdentifierResponse.builder()
             .identifier(WsIdentifier.builder()
                 .type(ORGANISATION_PSEUDO)
                 .value("encryptedValue")
@@ -80,7 +79,7 @@ class ExchangeIdentifierServiceTest {
     @SneakyThrows
     void testExchangeIdentifier_OrgPseudoToBsn() {
         // GIVEN
-        final var request = WsExchangeIdentifierRequest.builder()
+        final WsExchangeIdentifierRequest request = WsExchangeIdentifierRequest.builder()
             .identifier(WsIdentifier.builder()
                 .type(ORGANISATION_PSEUDO)
                 .value("somePseudo")
@@ -89,7 +88,7 @@ class ExchangeIdentifierServiceTest {
             .recipientIdentifierType(BSN)
             .build();
         // We mock PseudoBsnMapper to return a WsExchangeIdentifierResponse
-        final var mockedResponse = WsExchangeIdentifierResponse.builder()
+        final WsExchangeIdentifierResponse mockedResponse = WsExchangeIdentifierResponse.builder()
             .identifier(WsIdentifier.builder()
                 .type(BSN)
                 .value("decryptedBsn")
@@ -116,7 +115,7 @@ class ExchangeIdentifierServiceTest {
         """)
     void testExchangeIdentifier_UnsupportedMapping_ThrowsException() {
         // GIVEN
-        final var request = WsExchangeIdentifierRequest.builder()
+        final WsExchangeIdentifierRequest request = WsExchangeIdentifierRequest.builder()
             // Let's say we do something like BSN -> BSN or ORG_PSEUDO -> ORG_PSEUDO
             .identifier(WsIdentifier.builder()
                 .type(BSN)
@@ -127,7 +126,7 @@ class ExchangeIdentifierServiceTest {
             .build();
         // WHEN & THEN
         assertThrows(
-            InvalidWsIdentifierRequestTypeException.class,
+            RuntimeException.class,
             () -> exchangeIdentifierService.exchangeIdentifier(request)
         );
     }

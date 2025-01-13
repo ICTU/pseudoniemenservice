@@ -7,7 +7,6 @@ import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRe
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes;
 import nl.appsource.service.ExchangeTokenService;
-import nl.appsource.service.exception.InvalidOINException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +43,12 @@ class ExchangeTokenControllerTest {
     @SneakyThrows
     void exchangeToken_ShouldReturnOk() {
         // GIVEN: a request payload
-        final var requestPayload = WsExchangeTokenRequest.builder()
+        final WsExchangeTokenRequest requestPayload = WsExchangeTokenRequest.builder()
             .token("testToken")
             .identifierType(WsIdentifierTypes.BSN)
             .build();
         // AND: a mock service response
-        final var responsePayload = new WsExchangeTokenResponse();
+        final WsExchangeTokenResponse responsePayload = new WsExchangeTokenResponse();
         responsePayload.setIdentifier(WsIdentifier.builder()
             .type(WsIdentifierTypes.BSN)
             .value("convertedIdentifier")
@@ -77,11 +76,11 @@ class ExchangeTokenControllerTest {
     @SneakyThrows
     void exchangeToken_ShouldReturnUnprocessableEntity() {
         // GIVEN: a request payload
-        final var requestPayload = WsExchangeTokenRequest.builder()
+        final WsExchangeTokenRequest requestPayload = WsExchangeTokenRequest.builder()
             .token("testToken").identifierType(WsIdentifierTypes.ORGANISATION_PSEUDO)
             .build();
         // WHEN: the service throws an exception
-        doThrow(new InvalidOINException("Service error"))
+        doThrow(new RuntimeException("Service error"))
             .when(exchangeTokenService)
             .exchangeToken(eq("FAIL_OIN"), any(WsExchangeTokenRequest.class));
         // THEN: perform the POST request

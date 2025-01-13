@@ -29,8 +29,12 @@ public final class ExchangeIdentifierController implements ExchangeIdentifierApi
     @Override
     public ResponseEntity<WsExchangeIdentifierResponse> exchangeIdentifier(final String callerOIN,
                                                                            final WsExchangeIdentifierRequest wsExchangeRequest) {
-
-        final var identifier = exchangeIdentifierService.exchangeIdentifier(wsExchangeRequest);
-        return ResponseEntity.ok(identifier);
+        try {
+            final WsExchangeIdentifierResponse identifier = exchangeIdentifierService.exchangeIdentifier(wsExchangeRequest);
+            return ResponseEntity.ok(identifier);
+        } catch (final Exception e) {
+            log.error("", e);
+            return ResponseEntity.unprocessableEntity().build();
+        }
     }
 }

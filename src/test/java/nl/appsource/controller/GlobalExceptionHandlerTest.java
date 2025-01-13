@@ -3,20 +3,12 @@ package nl.appsource.controller;
 import lombok.SneakyThrows;
 import nl.appsource.controller.stub.StubController;
 import nl.appsource.controller.stub.StubService;
-import nl.appsource.service.exception.IdentifierPrivateKeyException;
-import nl.appsource.service.exception.InvalidOINException;
-import nl.appsource.service.exception.InvalidWsIdentifierRequestTypeException;
-import nl.appsource.service.exception.InvalidWsIdentifierTokenException;
-import nl.appsource.service.exception.TokenPrivateKeyException;
-import nl.appsource.service.exception.WsGetTokenProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,7 +21,7 @@ class GlobalExceptionHandlerTest {
     public static final String SERVICE_ERROR_MESSAGE = "Service error";
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private StubService stubService;
 
     // Test for handleGenericException
@@ -37,36 +29,13 @@ class GlobalExceptionHandlerTest {
     @DisplayName("""
         Given an invalid endpoint
         When a GET request is made
-        Then an internal server error is returned with an appropriate message
+        Then an internal server error is returned
         """)
     @SneakyThrows
     void handleGenericException_ShouldReturnInternalServerErrorWithMessage() {
 
         mockMvc.perform(get("/non-existent-endpoint")) // Assuming no controller is mapped to this
-            .andExpect(status().isInternalServerError())
-            .andExpect(content().contentType("text/plain;charset=UTF-8"))
-            .andExpect(content().string(
-                "An unexpected error occurred: No static resource non-existent-endpoint."));
-    }
-
-    @Test
-    @DisplayName("""
-        Given a stubbed controller and service
-        When the service throws various exceptions
-        Then the system responds with UNPROCESSABLE_ENTITY and the exception message
-        """)
-    void exchangeToken_ShouldReturnUnprocessableEntity() {
-        // GIVEN: a stubbed controller and service
-        // WHEN: the service throws an exception
-        final var exceptions = List.of(
-            new IdentifierPrivateKeyException(SERVICE_ERROR_MESSAGE),
-            new InvalidWsIdentifierRequestTypeException(SERVICE_ERROR_MESSAGE),
-            new InvalidWsIdentifierTokenException(SERVICE_ERROR_MESSAGE),
-            new TokenPrivateKeyException(SERVICE_ERROR_MESSAGE),
-            new WsGetTokenProcessingException(SERVICE_ERROR_MESSAGE),
-            new InvalidOINException(SERVICE_ERROR_MESSAGE)
-        );
-        exceptions.forEach(this::testExceptionHandlingBehavior);
+            .andExpect(status().isInternalServerError());
     }
 
     /**

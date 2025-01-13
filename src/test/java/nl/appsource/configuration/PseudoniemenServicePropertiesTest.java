@@ -1,7 +1,5 @@
 package nl.appsource.configuration;
 
-import nl.appsource.service.exception.IdentifierPrivateKeyException;
-import nl.appsource.service.exception.TokenPrivateKeyException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,11 +16,11 @@ class PseudoniemenServicePropertiesTest {
         """)
     void validate_WhenTokenPrivateKeyIsEmpty_ThrowsTokenPrivateKeyException() {
         // GIVEN
-        final var props = new PseudoniemenServiceProperties()
+        final PseudoniemenServiceProperties props = new PseudoniemenServiceProperties()
             .setTokenPrivateKey("")
             .setIdentifierPrivateKey("someIdentifierKey");
         // WHEN & THEN
-        assertThrows(TokenPrivateKeyException.class, props::validate);
+        assertThrows(RuntimeException.class, props::validate);
     }
 
     @Test
@@ -32,11 +30,11 @@ class PseudoniemenServicePropertiesTest {
         """)
     void validate_WhenIdentifierPrivateKeyIsEmpty_ThrowsIdentifierPrivateKeyException() {
         // GIVEN
-        final var props = new PseudoniemenServiceProperties()
+        final PseudoniemenServiceProperties props = new PseudoniemenServiceProperties()
             .setTokenPrivateKey("someTokenKey")
             .setIdentifierPrivateKey("");
         // WHEN & THEN
-        assertThrows(IdentifierPrivateKeyException.class, props::validate);
+        assertThrows(RuntimeException.class, props::validate);
     }
 
     @Test
@@ -46,7 +44,7 @@ class PseudoniemenServicePropertiesTest {
         """)
     void validate_WhenBothKeysAreSet_NoExceptionIsThrown() {
         // GIVEN
-        final var props = new PseudoniemenServiceProperties()
+        final PseudoniemenServiceProperties props = new PseudoniemenServiceProperties()
             .setTokenPrivateKey("someTokenKey")
             .setIdentifierPrivateKey("someIdentifierKey");
         // WHEN & THEN

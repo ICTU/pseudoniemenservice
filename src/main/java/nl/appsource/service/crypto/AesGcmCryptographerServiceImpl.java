@@ -13,6 +13,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
@@ -66,13 +67,13 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
         if (salt == null || salt.isEmpty()) {
             throw new IllegalArgumentException("Salt cannot be null or empty");
         }
-        final var cipher = AesUtility.createCipher();
-        final var gcmParameterSpec = AesUtility.generateIV();
-        final var secretKey = createSecretKey(salt);
+        final Cipher cipher = AesUtility.createCipher();
+        final GCMParameterSpec gcmParameterSpec = AesUtility.generateIV();
+        final SecretKey secretKey = createSecretKey(salt);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParameterSpec);
-        final var ciphertext = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
-        final var gcmIV = gcmParameterSpec.getIV();
-        final var encryptedWithIV = ByteArrayUtil.concat(gcmIV, ciphertext);
+        final byte[] ciphertext = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
+        final byte[] gcmIV = gcmParameterSpec.getIV();
+        final byte[] encryptedWithIV = ByteArrayUtil.concat(gcmIV, ciphertext);
         return base64Wrapper.encodeToString(encryptedWithIV);
     }
 
@@ -87,11 +88,11 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
     @Override
     public SecretKey createSecretKey(final String salt) {
 
-        final var keyBytes = base64Wrapper.decode(
+        final byte[] keyBytes = base64Wrapper.decode(
             pseudoniemenServiceProperties.getTokenPrivateKey());
-        final var saltBytes = salt.getBytes(StandardCharsets.UTF_8);
-        final var salterSecretBytes = ByteArrayUtil.concat(keyBytes, saltBytes);
-        final var key = messageDigestWrapper.instance().digest(salterSecretBytes);
+        final byte[] saltBytes = salt.getBytes(StandardCharsets.UTF_8);
+        final byte[] salterSecretBytes = ByteArrayUtil.concat(keyBytes, saltBytes);
+        final byte[] key = messageDigestWrapper.instance().digest(salterSecretBytes);
         return new SecretKeySpec(key, "AES");
     }
 
@@ -122,15 +123,15 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
         IllegalBlockSizeException,
         BadPaddingException {
 
-        final var cipher = AesUtility.createCipher();
-        final var encryptedWithIV = base64Wrapper.decode(ciphertextWithIv);
-        final var iv = Arrays.copyOfRange(encryptedWithIV, 0, IV_LENGTH);
-        final var ciphertext = Arrays.copyOfRange(encryptedWithIV, IV_LENGTH,
+        final Cipher cipher = AesUtility.createCipher();
+        final byte[] encryptedWithIV = base64Wrapper.decode(ciphertextWithIv);
+        final byte[] iv = Arrays.copyOfRange(encryptedWithIV, 0, IV_LENGTH);
+        final byte[] ciphertext = Arrays.copyOfRange(encryptedWithIV, IV_LENGTH,
             encryptedWithIV.length);
-        final var gcmParameterSpec = AesUtility.createIVfromValues(iv);
-        final var secretKey = createSecretKey(salt);
+        final GCMParameterSpec gcmParameterSpec = AesUtility.createIVfromValues(iv);
+        final SecretKey secretKey = createSecretKey(salt);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParameterSpec);
-        final var decryptedText = cipher.doFinal(ciphertext);
+        final byte[] decryptedText = cipher.doFinal(ciphertext);
         return new String(decryptedText, StandardCharsets.UTF_8);
     }
 }

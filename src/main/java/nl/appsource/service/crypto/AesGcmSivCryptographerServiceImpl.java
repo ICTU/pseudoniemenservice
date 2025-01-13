@@ -43,10 +43,10 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     @Override
     public AEADParameters createSecretKey(final String salt) {
 
-        final var nonce16 = messageDigestWrapper.instance().digest(salt.getBytes(StandardCharsets.UTF_8));
-        final var nonce12 = Arrays.copyOf(nonce16, NONCE_LENTH);
-        final var identifierPrivateKey = pseudoniemenServiceProperties.getIdentifierPrivateKey();
-        final var keyParameter = new KeyParameter(base64Wrapper.decode(identifierPrivateKey));
+        final byte[] nonce16 = messageDigestWrapper.instance().digest(salt.getBytes(StandardCharsets.UTF_8));
+        final byte[] nonce12 = Arrays.copyOf(nonce16, NONCE_LENTH);
+        final String identifierPrivateKey = pseudoniemenServiceProperties.getIdentifierPrivateKey();
+        final KeyParameter keyParameter = new KeyParameter(base64Wrapper.decode(identifierPrivateKey));
         return new AEADParameters(keyParameter, MAC_SIZE, nonce12);
     }
 
@@ -64,12 +64,12 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     @Override
     public String encrypt(final Identifier identifier, final String salt) throws InvalidCipherTextException, IOException {
 
-        final var plaintext = identifierConverter.serialize(identifier);
-        final var cipher = new GCMSIVBlockCipher(AesUtility.getAESEngine());
+        final String plaintext = identifierConverter.serialize(identifier);
+        final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtility.getAESEngine());
         cipher.init(true, createSecretKey(salt));
-        final var plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
-        final var ciphertext = new byte[cipher.getOutputSize(plainTextBytes.length)];
-        final var outputLength = cipher.processBytes(plainTextBytes, 0, plainTextBytes.length, ciphertext, 0);
+        final byte[] plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
+        final byte[] ciphertext = new byte[cipher.getOutputSize(plainTextBytes.length)];
+        final int outputLength = cipher.processBytes(plainTextBytes, 0, plainTextBytes.length, ciphertext, 0);
         cipher.doFinal(ciphertext, outputLength);
         cipher.reset();
         return base64Wrapper.encodeToString(ciphertext);
@@ -86,14 +86,14 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     @Override
     public Identifier decrypt(final String ciphertextString, final String salt) throws InvalidCipherTextException, JsonProcessingException {
 
-        final var cipher = new GCMSIVBlockCipher(AesUtility.getAESEngine());
+        final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtility.getAESEngine());
         cipher.init(false, createSecretKey(salt));
-        final var ciphertext = base64Wrapper.decode(ciphertextString);
-        final var plaintext = new byte[cipher.getOutputSize(ciphertext.length)];
-        final var outputLength = cipher.processBytes(ciphertext, 0, ciphertext.length, plaintext, 0);
+        final byte[] ciphertext = base64Wrapper.decode(ciphertextString);
+        final byte[] plaintext = new byte[cipher.getOutputSize(ciphertext.length)];
+        final int outputLength = cipher.processBytes(ciphertext, 0, ciphertext.length, plaintext, 0);
         cipher.doFinal(plaintext, outputLength);
         cipher.reset();
-        final var encodedIdentifier = new String(plaintext, StandardCharsets.UTF_8);
+        final String encodedIdentifier = new String(plaintext, StandardCharsets.UTF_8);
         return identifierConverter.deSerialize(encodedIdentifier);
     }
 }

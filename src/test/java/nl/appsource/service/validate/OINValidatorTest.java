@@ -26,12 +26,12 @@ class OINValidatorTest {
         """)
     void isValid_ReturnsTrue_WhenOINsMatch() {
         // GIVEN
-        final var callerOIN = "TEST_OIN_123";
-        final var token = Token.builder()
+        final String callerOIN = "TEST_OIN_123";
+        final Token token = Token.builder()
             .recipientOIN("TEST_OIN_123")
             .build();
         // WHEN
-        final var result = oinValidator.isValid(callerOIN, token);
+        final boolean result = oinValidator.isValid(callerOIN, token);
         // THEN
         assertTrue(result, "Expected isValid() to return true for matching OINs");
     }
@@ -44,12 +44,12 @@ class OINValidatorTest {
         """)
     void isValid_ReturnsFalse_WhenOINsDoNotMatch() {
         // GIVEN
-        final var callerOIN = "TEST_OIN_ABC";
-        final var token = Token.builder()
+        final String callerOIN = "TEST_OIN_ABC";
+        final Token token = Token.builder()
             .recipientOIN("TEST_OIN_XYZ")
             .build();
         // WHEN
-        final var result = oinValidator.isValid(callerOIN, token);
+        final boolean result = oinValidator.isValid(callerOIN, token);
         // THEN
         assertFalse(result, "Expected isValid() to return false for non-matching OINs");
     }
@@ -62,10 +62,10 @@ class OINValidatorTest {
         """)
     void isValid_Behavior_WhenTokenRecipientOINIsNull() {
         // GIVEN
-        final var callerOIN = "NON_NULL_OIN";
-        final var token = Token.builder().build();
+        final String callerOIN = "NON_NULL_OIN";
+        final Token token = Token.builder().build();
         // WHEN
-        final var result = oinValidator.isValid(callerOIN, token);
+        final boolean result = oinValidator.isValid(callerOIN, token);
         // THEN
         assertFalse(result, "Expected isValid() to return false if token's recipientOIN is null");
     }

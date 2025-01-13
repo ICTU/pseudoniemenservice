@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.CollectionUtils;
 
@@ -55,12 +56,12 @@ class TestingWebApplicationTests {
         """)
     void testGetAtokenExchangeForBSN() {
         // get a token
-        final var getTokenBody = Map.of("recipientOIN", "54321543215432154321", "identifier",
+        final Map<String, Object> getTokenBody = Map.of("recipientOIN", "54321543215432154321", "identifier",
             Map.of("type", "BSN", "value", "012345679"));
-        final var httpEntityGetToken = new HttpEntity<>(getTokenBody,
+        final HttpEntity<Map<String, Object>> httpEntityGetToken = new HttpEntity<>(getTokenBody,
             new HttpHeaders(CollectionUtils.toMultiValueMap(
                 of("callerOIN", List.of("0912345012345012345012345")))));
-        final var tokenExchange = restTemplate.exchange("/v1/getToken", HttpMethod.POST,
+        final ResponseEntity<Map> tokenExchange = restTemplate.exchange("/v1/getToken", HttpMethod.POST,
             httpEntityGetToken, Map.class);
         assertThat(tokenExchange.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(tokenExchange)
@@ -69,12 +70,12 @@ class TestingWebApplicationTests {
             .containsKey("token");
 
         // change token for identifier
-        final var token = (String) tokenExchange.getBody().get("token");
-        final var exchangeTokenBody = Map.of("token", token, "identifierType", "BSN");
-        final var httpEntityExchangeToken = new HttpEntity<>(exchangeTokenBody,
+        final String token = (String) tokenExchange.getBody().get("token");
+        final Map<String, String> exchangeTokenBody = Map.of("token", token, "identifierType", "BSN");
+        final HttpEntity<Map<String, String>> httpEntityExchangeToken = new HttpEntity<>(exchangeTokenBody,
             new HttpHeaders(CollectionUtils.toMultiValueMap(
                 of("callerOIN", List.of("54321543215432154321")))));
-        final var identifierExchange = restTemplate.exchange("/v1/exchangeToken", HttpMethod.POST,
+        final ResponseEntity<Map> identifierExchange = restTemplate.exchange("/v1/exchangeToken", HttpMethod.POST,
             httpEntityExchangeToken,
             Map.class);
         assertThat(identifierExchange.getStatusCode()).isEqualTo(HttpStatus.OK);

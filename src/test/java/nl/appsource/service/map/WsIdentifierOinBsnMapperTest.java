@@ -34,10 +34,10 @@ class WsIdentifierOinBsnMapperTest {
     @SneakyThrows
     void testMap_BsnType() {
         // GIVEN
-        final var bsnValue = "987654321";
-        final var identifier = new WsIdentifier().type(BSN).value(bsnValue);
+        final String bsnValue = "987654321";
+        final WsIdentifier identifier = new WsIdentifier().type(BSN).value(bsnValue);
         // WHEN
-        final var result = wsIdentifierOinBsnMapper.map(identifier, "123456789");
+        final String result = wsIdentifierOinBsnMapper.map(identifier, "123456789");
         // THEN
         assertEquals(bsnValue, result);
         verifyNoInteractions(encryptedBsnMapper); // Ensure EncryptedBsnMapper is not called
@@ -52,10 +52,10 @@ class WsIdentifierOinBsnMapperTest {
     @SneakyThrows
     void testMap_OrganisationPseudoType() {
         // GIVEN
-        final var bsnValue = "987654321";
-        final var recipientOIN = "123456789";
-        final var encryptedValue = "encrypted-value";
-        final var identifier = new WsIdentifier()
+        final String bsnValue = "987654321";
+        final String recipientOIN = "123456789";
+        final String encryptedValue = "encrypted-value";
+        final WsIdentifier identifier = new WsIdentifier()
             .type(ORGANISATION_PSEUDO)
             .value(bsnValue);
         when(encryptedBsnMapper.map(bsnValue, recipientOIN)).thenReturn(encryptedValue);

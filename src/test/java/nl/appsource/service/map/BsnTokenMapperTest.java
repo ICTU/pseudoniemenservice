@@ -1,6 +1,7 @@
 package nl.appsource.service.map;
 
 import nl.appsource.model.Token;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,11 +29,11 @@ class BsnTokenMapperTest {
         """)
     void map_WhenTokenHasValidBsn_ShouldReturnResponseWithBsnIdentifier() {
         // GIVEN
-        final var token = Token.builder()
+        final Token token = Token.builder()
             .bsn("123456789")
             .build();
         // WHEN
-        final var response = bsnTokenMapper.map(token);
+        final WsExchangeTokenResponse response = bsnTokenMapper.map(token);
         // THEN
         assertNotNull(response, "Response should not be null");
         assertNotNull(response.getIdentifier(), "Identifier should not be null");
@@ -49,9 +50,9 @@ class BsnTokenMapperTest {
         """)
     void map_WhenTokenHasNoBsn_ShouldHandleNullBsnGracefully() {
         // GIVEN
-        final var token = Token.builder().build(); // No BSN set
+        final Token token = Token.builder().build(); // No BSN set
         // WHEN
-        final var response = bsnTokenMapper.map(token);
+        final WsExchangeTokenResponse response = bsnTokenMapper.map(token);
         // THEN
         assertNotNull(response, "Response should not be null even if BSN is null");
         assertNotNull(response.getIdentifier(), "Identifier should not be null");

@@ -1,5 +1,6 @@
 package nl.appsource.controller.v1;
 
+import lombok.SneakyThrows;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
 import nl.appsource.service.ExchangeIdentifierService;
@@ -12,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,14 +30,15 @@ class ExchangeIdentifierControllerTest {
         When calling exchangeIdentifier()
         Then it returns 200 OK with the expected response
         """)
+    @SneakyThrows
     void testExchangeIdentifier_Success() {
         // GIVEN
-        final var callerOIN = "123456789";
-        final var request = new WsExchangeIdentifierRequest();
-        final var expectedResponse = new WsExchangeIdentifierResponse();
+        final String callerOIN = "123456789";
+        final WsExchangeIdentifierRequest request = new WsExchangeIdentifierRequest();
+        final WsExchangeIdentifierResponse expectedResponse = new WsExchangeIdentifierResponse();
         when(service.exchangeIdentifier(request)).thenReturn(expectedResponse);
         // WHEN
-        final var response = controller.exchangeIdentifier(callerOIN, request);
+        final ResponseEntity<WsExchangeIdentifierResponse> response = controller.exchangeIdentifier(callerOIN, request);
         // THEN
         assertEquals(ResponseEntity.ok(expectedResponse), response);
         verify(service).exchangeIdentifier(request); // Ensure service method is called
@@ -49,16 +50,17 @@ class ExchangeIdentifierControllerTest {
         When calling exchangeIdentifier()
         Then it throws the same exception with the correct message
         """)
+    @SneakyThrows
     void testExchangeIdentifier_ServiceThrowsException() {
         // GIVEN
-        final var callerOIN = "123456789";
-        final var request = new WsExchangeIdentifierRequest();
-        final var exception = new RuntimeException("Service error");
+        final String callerOIN = "123456789";
+        final WsExchangeIdentifierRequest request = new WsExchangeIdentifierRequest();
+        final RuntimeException exception = new RuntimeException("Service error");
         when(service.exchangeIdentifier(request)).thenThrow(exception);
-        // WHEN & THEN
-        final var thrownException = assertThrows(RuntimeException.class,
-            () -> controller.exchangeIdentifier(callerOIN, request));
-        assertEquals("Service error", thrownException.getMessage());
+        // WHEN
+        final ResponseEntity<WsExchangeIdentifierResponse> response = controller.exchangeIdentifier(callerOIN, request);
+        // THEN
+        assertEquals(ResponseEntity.unprocessableEntity().build(),response);
         verify(service).exchangeIdentifier(request); // Ensure service method is called
     }
 }

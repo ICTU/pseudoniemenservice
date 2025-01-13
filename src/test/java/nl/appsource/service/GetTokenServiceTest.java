@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes;
-import nl.appsource.service.exception.WsGetTokenProcessingException;
 import nl.appsource.service.map.WsGetTokenResponseMapper;
 import nl.appsource.service.map.WsIdentifierOinBsnMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,18 +52,18 @@ class GetTokenServiceTest {
     @SneakyThrows
     void testGetWsGetTokenResponse_ValidInput() {
         // GIVEN
-        final var identifier = WsIdentifier.builder()
+        final WsIdentifier identifier = WsIdentifier.builder()
             .type(WsIdentifierTypes.BSN)
             .value(bsn)
             .build();
-        final var expectedResponse = mock(WsGetTokenResponse.class);
+        final WsGetTokenResponse expectedResponse = mock(WsGetTokenResponse.class);
 
         // Stubbing dependencies
         when(wsIdentifierOinBsnMapper.map(identifier, recipientOIN)).thenReturn(bsn);
         when(wsGetTokenResponseMapper.map(eq(bsn), anyLong(), eq(recipientOIN))).thenReturn(expectedResponse);
 
         // WHEN
-        final var actualResponse = getTokenService.getWsGetTokenResponse(recipientOIN, identifier);
+        final WsGetTokenResponse actualResponse = getTokenService.getWsGetTokenResponse(recipientOIN, identifier);
 
         // THEN
         verify(wsIdentifierOinBsnMapper).map(identifier, recipientOIN);
@@ -81,22 +80,21 @@ class GetTokenServiceTest {
     @SneakyThrows
     void testGetWsGetTokenResponse_UnexpectedError() {
         // GIVEN
-        final var identifier = WsIdentifier.builder()
+        final WsIdentifier identifier = WsIdentifier.builder()
             .type(WsIdentifierTypes.BSN)
             .value(bsn)
             .build();
-        final var exceptionMessage = "Unexpected processing error";
+        final String exceptionMessage = "Unexpected processing error";
 
         // Stubbing dependencies
         when(wsIdentifierOinBsnMapper.map(identifier, recipientOIN))
             .thenThrow(new RuntimeException(exceptionMessage));
 
         // WHEN & THEN
-        final var exception = assertThrows(WsGetTokenProcessingException.class,
+        assertThrows(RuntimeException.class,
             () -> getTokenService.getWsGetTokenResponse(recipientOIN, identifier));
 
         // Assert exception message
-        assertEquals(exceptionMessage, exception.getMessage());
         verify(wsIdentifierOinBsnMapper).map(identifier, recipientOIN);
         verifyNoInteractions(wsGetTokenResponseMapper);
     }

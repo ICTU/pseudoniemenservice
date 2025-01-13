@@ -2,6 +2,7 @@ package nl.appsource.service.map;
 
 import lombok.SneakyThrows;
 import nl.appsource.model.Token;
+import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
 import nl.appsource.service.crypto.AesGcmCryptographerService;
 import nl.appsource.service.crypto.TokenConverter;
 import org.junit.jupiter.api.DisplayName;
@@ -44,9 +45,9 @@ class WsGetTokenResponseMapperTest {
         """)
     @SneakyThrows
     void testMap_Success() {
-        final var encryptedToken = "encrypted-token";
+        final String encryptedToken = "encrypted-token";
         // GIVEN
-        final var token = Token.builder()
+        final Token token = Token.builder()
             .version(WsGetTokenResponseMapper.V_1)
             .bsn(bsn)
             .creationDate(creationDate)
@@ -55,7 +56,7 @@ class WsGetTokenResponseMapperTest {
         when(tokenConverter.serialize(token)).thenReturn(encodedToken);
         when(aesGcmCryptographerService.encrypt(encodedToken, recipientOIN)).thenReturn(encryptedToken);
         // WHEN
-        final var response = wsGetTokenResponseMapper.map(bsn, creationDate, recipientOIN);
+        final WsGetTokenResponse response = wsGetTokenResponseMapper.map(bsn, creationDate, recipientOIN);
         // THEN
         verify(tokenConverter).serialize(token);
         verify(aesGcmCryptographerService).encrypt(encodedToken, recipientOIN);
@@ -71,7 +72,7 @@ class WsGetTokenResponseMapperTest {
     @SneakyThrows
     void testMap_EncodingIOException() {
         // GIVEN
-        final var token = Token.builder()
+        final Token token = Token.builder()
             .version(WsGetTokenResponseMapper.V_1)
             .bsn(bsn)
             .creationDate(creationDate)
@@ -94,7 +95,7 @@ class WsGetTokenResponseMapperTest {
     @SneakyThrows
     void testMap_EncryptionError() {
         // GIVEN
-        final var token = Token.builder()
+        final Token token = Token.builder()
             .version(WsGetTokenResponseMapper.V_1)
             .bsn(bsn)
             .creationDate(creationDate)
@@ -119,7 +120,7 @@ class WsGetTokenResponseMapperTest {
     @SneakyThrows
     void testMap_UnexpectedError() {
         // GIVEN
-        final var token = Token.builder()
+        final Token token = Token.builder()
             .version(WsGetTokenResponseMapper.V_1)
             .bsn(bsn)
             .creationDate(creationDate)

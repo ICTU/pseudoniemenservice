@@ -33,11 +33,11 @@ public class OrganisationPseudoTokenMapper {
     public WsExchangeTokenResponse map(final String callerOIN,
                                        final Token token) throws InvalidCipherTextException, IOException {
 
-        final var tokenIdentifier = Identifier.builder()
+        final Identifier tokenIdentifier = Identifier.builder()
             .version(V_1)
             .bsn(token.getBsn())
             .build();
-        final var encryptedIdentifier = aesGcmSivCryptographerService.encrypt(tokenIdentifier, callerOIN);
+        final String encryptedIdentifier = aesGcmSivCryptographerService.encrypt(tokenIdentifier, callerOIN);
         return WsExchangeTokenResponse.builder()
             .identifier(WsIdentifier.builder()
                 .type(ORGANISATION_PSEUDO)

@@ -1,12 +1,13 @@
 package nl.appsource.utils;
 
 import lombok.SneakyThrows;
+import org.bouncycastle.crypto.MultiBlockCipher;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.crypto.NoSuchPaddingException;
-import java.security.NoSuchAlgorithmException;
+import javax.crypto.Cipher;
+import javax.crypto.spec.GCMParameterSpec;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +24,7 @@ class AesUtilityTest {
         """)
     void generateIV_ShouldReturnGCMParameterSpec() {
         // WHEN
-        final var spec = AesUtility.generateIV();
+        final GCMParameterSpec spec = AesUtility.generateIV();
         // THEN
         assertNotNull(spec, "GCMParameterSpec should not be null");
         assertEquals(AesUtility.TAG_LENGTH, spec.getTLen(),
@@ -41,12 +42,12 @@ class AesUtilityTest {
         """)
     void createIVfromValues_ShouldReturnGCMParameterSpecFromGivenIV() {
         // GIVEN: a deterministic IV of length 12
-        final var ivBytes = new byte[AesUtility.IV_LENGTH];
+        final byte[] ivBytes = new byte[AesUtility.IV_LENGTH];
         for (int i = 0; i < ivBytes.length; i++) {
             ivBytes[i] = (byte) i;
         }
         // WHEN
-        final var spec = AesUtility.createIVfromValues(ivBytes);
+        final GCMParameterSpec spec = AesUtility.createIVfromValues(ivBytes);
         // THEN
         assertNotNull(spec, "GCMParameterSpec should not be null");
         assertEquals(AesUtility.TAG_LENGTH, spec.getTLen(),
@@ -64,7 +65,7 @@ class AesUtilityTest {
     @SneakyThrows
     void createCipher_ShouldReturnAesGcmNoPadding() {
         // WHEN
-        final var cipher = AesUtility.createCipher();
+        final Cipher cipher = AesUtility.createCipher();
         // THEN
         assertNotNull(cipher, "Cipher should not be null");
         assertEquals("AES/GCM/NoPadding", cipher.getAlgorithm(),
@@ -79,7 +80,7 @@ class AesUtilityTest {
         """)
     void getAESEngine_ShouldReturnAesEngine() {
         // WHEN
-        final var engine = AesUtility.getAESEngine();
+        final MultiBlockCipher engine = AesUtility.getAESEngine();
         // THEN
         assertNotNull(engine, "Engine should not be null");
         assertInstanceOf(AESEngine.class, engine, "Engine should be an instance of AESEngine");

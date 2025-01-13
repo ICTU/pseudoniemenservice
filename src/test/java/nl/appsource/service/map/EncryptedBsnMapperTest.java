@@ -30,10 +30,10 @@ class EncryptedBsnMapperTest {
     @SneakyThrows
     void map_WhenDecryptSucceeds_ShouldReturnDecryptedBsn() {
         // GIVEN
-        final var encryptedBsn = "someEncryptedValue";
-        final var recipientOin = "testOIN";
-        final var expectedBsn = "123456789";
-        final var decryptedIdentifier = Identifier.builder()
+        final String encryptedBsn = "someEncryptedValue";
+        final String recipientOin = "testOIN";
+        final String expectedBsn = "123456789";
+        final Identifier decryptedIdentifier = Identifier.builder()
             .bsn(expectedBsn)
             .build();
         when(aesGcmSivCryptographerService.decrypt(encryptedBsn, recipientOin))

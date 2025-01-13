@@ -1,9 +1,13 @@
 package nl.appsource.utils;
 
 import lombok.SneakyThrows;
+import org.bouncycastle.crypto.MultiBlockCipher;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.GCMParameterSpec;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +24,7 @@ class AESHelperTest {
         """)
     void generateIV_ShouldReturnGCMParameterSpec_WithNonNullIV() {
         // WHEN
-        final var gcmParameterSpec = AesUtility.generateIV();
+        final GCMParameterSpec gcmParameterSpec = AesUtility.generateIV();
         // THEN
         assertNotNull(gcmParameterSpec, "GCMParameterSpec should not be null");
         assertEquals(AesUtility.TAG_LENGTH, gcmParameterSpec.getTLen(),
@@ -46,7 +50,7 @@ class AESHelperTest {
             ivSource[i] = (byte) i;
         }
         // WHEN
-        final var spec = AesUtility.createIVfromValues(ivSource);
+        final GCMParameterSpec spec = AesUtility.createIVfromValues(ivSource);
         // THEN
         assertNotNull(spec, "GCMParameterSpec should not be null");
         assertEquals(AesUtility.TAG_LENGTH, spec.getTLen(),
@@ -64,7 +68,7 @@ class AESHelperTest {
     @SneakyThrows
     void createCipher_ShouldReturnAesGcmNoPaddingCipher() {
         // WHEN
-        final var cipher = AesUtility.createCipher();
+        final Cipher cipher = AesUtility.createCipher();
         // THEN
         assertNotNull(cipher, "Cipher should not be null");
         // Depending on the JVM/provider, the algorithm name can be uppercase or some variation,
@@ -81,7 +85,7 @@ class AESHelperTest {
         """)
     void getAESEngine_ShouldReturnNonNullAESEngineInstance() {
         // WHEN
-        final var engine = AesUtility.getAESEngine();
+        final MultiBlockCipher engine = AesUtility.getAESEngine();
         // THEN
         assertNotNull(engine, "Engine should not be null");
         assertInstanceOf(AESEngine.class, engine, "Engine should be an instance of AESEngine");

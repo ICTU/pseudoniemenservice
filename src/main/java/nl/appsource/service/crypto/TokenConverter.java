@@ -26,7 +26,7 @@ public class TokenConverter {
      */
     public String serialize(final Token token) throws IOException {
 
-        final var stringWriter = new StringWriter();
+        final StringWriter stringWriter = new StringWriter();
         objectMapper.writeValue(stringWriter, token);
         return stringWriter.toString();
     }

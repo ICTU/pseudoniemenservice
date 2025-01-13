@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.security.MessageDigest;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,7 +27,7 @@ public class MessageDigestWrapperTest {
         """)
     void getMessageDigestSha256_ShouldReturnSha256Digest() {
         // WHEN
-        final var digest = messageDigestWrapper.instance();
+        final MessageDigest digest = messageDigestWrapper.instance();
         // THEN
         assertNotNull(digest, "MessageDigest should not be null");
         assertEquals("SHA-256", digest.getAlgorithm(),

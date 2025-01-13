@@ -1,14 +1,21 @@
 package nl.appsource.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
-import nl.appsource.service.exception.WsGetTokenProcessingException;
 import nl.appsource.service.map.WsGetTokenResponseMapper;
 import nl.appsource.service.map.WsIdentifierOinBsnMapper;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.springframework.stereotype.Service;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @Service
@@ -28,19 +35,14 @@ public final class GetTokenService {
      * @return a {@link WsGetTokenResponse} containing the encrypted token, or null if the
      * identifier is invalid or BSN mapping fails
      */
-    @SneakyThrows
-    public WsGetTokenResponse getWsGetTokenResponse(final String recipientOIN,
-                                                    final WsIdentifier identifier) {
 
-        final var creationDate = System.currentTimeMillis();
+    public WsGetTokenResponse getWsGetTokenResponse(final String recipientOIN,
+                                                    final WsIdentifier identifier)
+        throws InvalidCipherTextException, IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+
+        final long creationDate = System.currentTimeMillis();
         // check is callerOIN allowed to communicatie with sinkOIN
-        try {
-            final var bsn = wsIdentifierOinBsnMapper.map(identifier, recipientOIN);
-            return wsGetTokenResponseMapper.map(bsn, creationDate, recipientOIN);
-        } catch (Exception ex) {
-            final var exceptionMessage = ex.getMessage();
-            log.warn(exceptionMessage);
-            throw new WsGetTokenProcessingException(exceptionMessage);
-        }
+        final String bsn = wsIdentifierOinBsnMapper.map(identifier, recipientOIN);
+        return wsGetTokenResponseMapper.map(bsn, creationDate, recipientOIN);
     }
 }

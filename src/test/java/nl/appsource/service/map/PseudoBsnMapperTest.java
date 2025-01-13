@@ -36,10 +36,10 @@ class PseudoBsnMapperTest {
     @SneakyThrows
     void map_WhenDecryptionSucceeds_ShouldReturnDecryptedBsn() {
         // GIVEN
-        var pseudo = "someEncryptedString";
-        var oin = "TEST_OIN";
+        String pseudo = "someEncryptedString";
+        String oin = "TEST_OIN";
         // Suppose the decrypted Identifier has BSN "123456789"
-        final var decryptedIdentifier = Identifier.builder()
+        final Identifier decryptedIdentifier = Identifier.builder()
             .bsn("123456789")
             .build();
         when(aesGcmSivCryptographerService.decrypt(pseudo, oin))

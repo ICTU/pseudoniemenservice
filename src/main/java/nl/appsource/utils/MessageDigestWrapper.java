@@ -1,7 +1,6 @@
 package nl.appsource.utils;
 
 import jakarta.annotation.PostConstruct;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;
@@ -28,7 +27,7 @@ public final class MessageDigestWrapper {
      *
      * @return a MessageDigest instance initialized to use the SHA-256 algorithm
      */
-    @SneakyThrows
+
     public MessageDigest instance() {
         return messageDigest;
     }

@@ -58,9 +58,9 @@ class TestAesGcmSivCryptographerServiceImpl {
         testStrings.forEach(plain -> {
             try {
                 // GIVEN
-                final var crypted = aesGcmSivCryptographerService.encrypt(Identifier.builder().bsn(plain).build(), "helloHowAreyo12345678");
+                final String crypted = aesGcmSivCryptographerService.encrypt(Identifier.builder().bsn(plain).build(), "helloHowAreyo12345678");
                 // WHEN
-                final var actual = aesGcmSivCryptographerService.decrypt(crypted, "helloHowAreyo12345678");
+                final Identifier actual = aesGcmSivCryptographerService.decrypt(crypted, "helloHowAreyo12345678");
                 // THEN
                 assertThat(actual.getBsn()).isEqualTo(plain);
             } catch (final Exception e) {
@@ -78,11 +78,11 @@ class TestAesGcmSivCryptographerServiceImpl {
     @SneakyThrows
     void testCiphertextIsTheSameForSamePlaintext() {
         // GIVEN
-        final var plaintext = "This is a test message to ensure ciphertext is different!";
-        final var identifier = Identifier.builder().bsn(plaintext).build();
+        final String plaintext = "This is a test message to ensure ciphertext is different!";
+        final Identifier identifier = Identifier.builder().bsn(plaintext).build();
         // WHEN
-        final var encryptedMessage1 = aesGcmSivCryptographerService.encrypt(identifier, "aniceSaltGorYu");
-        final var encryptedMessage2 = aesGcmSivCryptographerService.encrypt(identifier, "aniceSaltGorYu");
+        final String encryptedMessage1 = aesGcmSivCryptographerService.encrypt(identifier, "aniceSaltGorYu");
+        final String encryptedMessage2 = aesGcmSivCryptographerService.encrypt(identifier, "aniceSaltGorYu");
         // THEN
         // Assert that the two ciphertexts are the same
         assertThat(encryptedMessage1).isEqualTo(encryptedMessage2);

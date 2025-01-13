@@ -6,7 +6,6 @@ import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRe
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
 import nl.appsource.service.crypto.AesGcmCryptographerService;
 import nl.appsource.service.crypto.TokenConverter;
-import nl.appsource.service.exception.InvalidOINException;
 import nl.appsource.service.map.BsnTokenMapper;
 import nl.appsource.service.map.OrganisationPseudoTokenMapper;
 import nl.appsource.service.validate.OINValidator;
@@ -67,7 +66,7 @@ class ExchangeTokenServiceTest {
     @SneakyThrows
     void testExchangeToken_BsnIdentifier() {
         // GIVEN
-        final var request = WsExchangeTokenRequest.builder()
+        final WsExchangeTokenRequest request = WsExchangeTokenRequest.builder()
             .token(encryptedToken)
             .identifierType(BSN)
             .build();
@@ -75,10 +74,10 @@ class ExchangeTokenServiceTest {
         when(aesGcmCryptographerService.decrypt(encryptedToken, callerOIN)).thenReturn(decodedToken);
         when(tokenConverter.deSerialize(decodedToken)).thenReturn(mockToken);
         when(oinValidator.isValid(callerOIN, mockToken)).thenReturn(true);
-        var expectedResponse = mock(WsExchangeTokenResponse.class);
+        WsExchangeTokenResponse expectedResponse = mock(WsExchangeTokenResponse.class);
         when(bsnTokenMapper.map(mockToken)).thenReturn(expectedResponse);
         // WHEN
-        final var actualResponse = exchangeTokenService.exchangeToken(callerOIN, request);
+        final WsExchangeTokenResponse actualResponse = exchangeTokenService.exchangeToken(callerOIN, request);
         // THEN
         verify(aesGcmCryptographerService).decrypt(encryptedToken, callerOIN);
         verify(tokenConverter).deSerialize(decodedToken);
@@ -96,7 +95,7 @@ class ExchangeTokenServiceTest {
     @SneakyThrows
     void testExchangeToken_OrganisationPseudoIdentifier() {
         // GIVEN
-        final var request = WsExchangeTokenRequest.builder()
+        final WsExchangeTokenRequest request = WsExchangeTokenRequest.builder()
             .token(encryptedToken)
             .identifierType(ORGANISATION_PSEUDO)
             .build();
@@ -104,10 +103,10 @@ class ExchangeTokenServiceTest {
         when(aesGcmCryptographerService.decrypt(encryptedToken, callerOIN)).thenReturn(decodedToken);
         when(tokenConverter.deSerialize(decodedToken)).thenReturn(mockToken);
         when(oinValidator.isValid(callerOIN, mockToken)).thenReturn(true);
-        final var expectedResponse = mock(WsExchangeTokenResponse.class);
+        final WsExchangeTokenResponse expectedResponse = mock(WsExchangeTokenResponse.class);
         when(organisationPseudoTokenMapper.map(callerOIN, mockToken)).thenReturn(expectedResponse);
         // WHEN
-        final var actualResponse = exchangeTokenService.exchangeToken(callerOIN, request);
+        final WsExchangeTokenResponse actualResponse = exchangeTokenService.exchangeToken(callerOIN, request);
         // THEN
         verify(aesGcmCryptographerService).decrypt(encryptedToken, callerOIN);
         verify(tokenConverter).deSerialize(decodedToken);
@@ -125,7 +124,7 @@ class ExchangeTokenServiceTest {
     @SneakyThrows
     void testExchangeToken_InvalidOIN() {
         // GIVEN
-        final var request = WsExchangeTokenRequest.builder()
+        final WsExchangeTokenRequest request = WsExchangeTokenRequest.builder()
             .token(encryptedToken)
             .identifierType(BSN)
             .build();
@@ -134,7 +133,7 @@ class ExchangeTokenServiceTest {
         when(tokenConverter.deSerialize(decodedToken)).thenReturn(mockToken);
         when(oinValidator.isValid(callerOIN, mockToken)).thenReturn(false); // Invalid OIN
         // WHEN & THEN
-        assertThrows(InvalidOINException.class, () -> exchangeTokenService.exchangeToken(callerOIN, request));
+        assertThrows(RuntimeException.class, () -> exchangeTokenService.exchangeToken(callerOIN, request));
         verify(aesGcmCryptographerService).decrypt(encryptedToken, callerOIN);
         verify(tokenConverter).deSerialize(decodedToken);
         verify(oinValidator).isValid(callerOIN, mockToken);

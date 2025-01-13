@@ -1,18 +1,25 @@
 package nl.appsource.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import nl.appsource.model.Token;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
 import nl.appsource.service.crypto.AesGcmCryptographerService;
 import nl.appsource.service.crypto.TokenConverter;
-import nl.appsource.service.exception.InvalidOINException;
-import nl.appsource.service.exception.InvalidWsIdentifierTokenException;
 import nl.appsource.service.map.BsnTokenMapper;
 import nl.appsource.service.map.OrganisationPseudoTokenMapper;
 import nl.appsource.service.validate.OINValidator;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,16 +46,19 @@ public final class ExchangeTokenService {
      * @throws InvalidWsIdentifierTokenException if the identifier type in the request is invalid or
      *                                           cannot be processed
      */
-    @SneakyThrows
     public WsExchangeTokenResponse exchangeToken(final String callerOIN,
-                                                 final WsExchangeTokenRequest wsExchangeTokenForIdentifierRequest) {
+                                                 final WsExchangeTokenRequest wsExchangeTokenForIdentifierRequest)
+        throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, IOException, InvalidCipherTextException {
 
-        final var encodedToken = aesGcmCryptographerService.decrypt(
+        final String encodedToken = aesGcmCryptographerService.decrypt(
             wsExchangeTokenForIdentifierRequest.getToken(), callerOIN);
-        final var token = tokenConverter.deSerialize(encodedToken);
+
+        final Token token = tokenConverter.deSerialize(encodedToken);
+
         if (!oinValidator.isValid(callerOIN, token)) {
-            throw new InvalidOINException("CallerOIN and token are mismatched.");
+            throw new RuntimeException("CallerOIN and token are mismatched.");
         }
+
         switch (wsExchangeTokenForIdentifierRequest.getIdentifierType()) {
             case BSN -> {
                 return bsnTokenMapper.map(token);
@@ -56,7 +66,7 @@ public final class ExchangeTokenService {
             case ORGANISATION_PSEUDO -> {
                 return organisationPseudoTokenMapper.map(callerOIN, token);
             }
-            default -> throw new InvalidWsIdentifierTokenException(
+            default -> throw new RuntimeException(
                 "Invalid identifier cannot be processed.");
         }
     }
