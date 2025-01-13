@@ -124,7 +124,7 @@ jobs:
 
 
   rollout-restart:
-    needs: build
+    needs: manifest-and-push
     runs-on: ubuntu-latest
     name: Rollout Restart
     steps:
