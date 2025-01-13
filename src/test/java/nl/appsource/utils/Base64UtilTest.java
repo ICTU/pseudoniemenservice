@@ -1,6 +1,5 @@
 package nl.appsource.utils;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,14 +8,7 @@ import java.nio.charset.StandardCharsets;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class Base64WrapperTest {
-
-    private Base64Wrapper base64Wrapper;
-
-    @BeforeEach
-    void setUp() {
-        base64Wrapper = new Base64Wrapper();
-    }
+class Base64UtilTest {
 
     @Test
     @DisplayName("""
@@ -28,7 +20,7 @@ class Base64WrapperTest {
         // GIVEN
         final byte[] input = "Hello".getBytes(StandardCharsets.UTF_8);
         // WHEN
-        final byte[] result = base64Wrapper.encode(input);
+        final byte[] result = Base64Util.encode(input);
         // THEN
         final String resultAsString = new String(result, StandardCharsets.UTF_8);
         assertEquals("SGVsbG8=", resultAsString,
@@ -45,7 +37,7 @@ class Base64WrapperTest {
         // GIVEN
         final byte[] input = "Hello".getBytes(StandardCharsets.UTF_8);
         // WHEN
-        final String base64String = base64Wrapper.encodeToString(input);
+        final String base64String = Base64Util.encodeToString(input);
         // THEN
         assertEquals("SGVsbG8=", base64String,
             "Expected Base64 encoding of 'Hello' to be 'SGVsbG8='");
@@ -61,7 +53,7 @@ class Base64WrapperTest {
         // GIVEN
         final String base64String = "SGVsbG8=";
         // WHEN
-        final byte[] decoded = base64Wrapper.decode(base64String);
+        final byte[] decoded = Base64Util.decode(base64String);
         // THEN
         final String decodedAsString = new String(decoded, StandardCharsets.UTF_8);
         assertEquals("Hello", decodedAsString,
@@ -79,7 +71,7 @@ class Base64WrapperTest {
         final String invalidBase64 = "Not valid base64!!!";
         // WHEN & THEN
         assertThrows(IllegalArgumentException.class,
-            () -> base64Wrapper.decode(invalidBase64),
+            () -> Base64Util.decode(invalidBase64),
             "Expected decode() to throw IllegalArgumentException for invalid Base64 string");
     }
 }

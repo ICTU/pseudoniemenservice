@@ -3,7 +3,7 @@ package nl.appsource.utils;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class ByteArrayUtil {
+public final class ByteArrayUtil {
 
     /**
      * Concatenates two byte arrays into a single byte array.

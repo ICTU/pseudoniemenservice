@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class AesUtilityTest {
+class AesUtilTest {
 
     @Test
     @DisplayName("""
@@ -24,14 +24,14 @@ class AesUtilityTest {
         """)
     void generateIV_ShouldReturnGCMParameterSpec() {
         // WHEN
-        final GCMParameterSpec spec = AesUtility.generateIV();
+        final GCMParameterSpec spec = AesUtil.generateIV();
         // THEN
         assertNotNull(spec, "GCMParameterSpec should not be null");
-        assertEquals(AesUtility.TAG_LENGTH, spec.getTLen(),
-            "Tag length should be " + AesUtility.TAG_LENGTH + " bits");
+        assertEquals(AesUtil.TAG_LENGTH, spec.getTLen(),
+            "Tag length should be " + AesUtil.TAG_LENGTH + " bits");
         assertNotNull(spec.getIV(), "IV should not be null");
-        assertEquals(AesUtility.IV_LENGTH, spec.getIV().length,
-            "IV length should be " + AesUtility.IV_LENGTH);
+        assertEquals(AesUtil.IV_LENGTH, spec.getIV().length,
+            "IV length should be " + AesUtil.IV_LENGTH);
     }
 
     @Test
@@ -42,16 +42,16 @@ class AesUtilityTest {
         """)
     void createIVfromValues_ShouldReturnGCMParameterSpecFromGivenIV() {
         // GIVEN: a deterministic IV of length 12
-        final byte[] ivBytes = new byte[AesUtility.IV_LENGTH];
+        final byte[] ivBytes = new byte[AesUtil.IV_LENGTH];
         for (int i = 0; i < ivBytes.length; i++) {
             ivBytes[i] = (byte) i;
         }
         // WHEN
-        final GCMParameterSpec spec = AesUtility.createIVfromValues(ivBytes);
+        final GCMParameterSpec spec = AesUtil.createIVfromValues(ivBytes);
         // THEN
         assertNotNull(spec, "GCMParameterSpec should not be null");
-        assertEquals(AesUtility.TAG_LENGTH, spec.getTLen(),
-            "Tag length should be " + AesUtility.TAG_LENGTH + " bits");
+        assertEquals(AesUtil.TAG_LENGTH, spec.getTLen(),
+            "Tag length should be " + AesUtil.TAG_LENGTH + " bits");
         assertArrayEquals(ivBytes, spec.getIV(),
             "IV in GCMParameterSpec should match the input array");
     }
@@ -65,7 +65,7 @@ class AesUtilityTest {
     @SneakyThrows
     void createCipher_ShouldReturnAesGcmNoPadding() {
         // WHEN
-        final Cipher cipher = AesUtility.createCipher();
+        final Cipher cipher = AesUtil.createCipher();
         // THEN
         assertNotNull(cipher, "Cipher should not be null");
         assertEquals("AES/GCM/NoPadding", cipher.getAlgorithm(),
@@ -80,7 +80,7 @@ class AesUtilityTest {
         """)
     void getAESEngine_ShouldReturnAesEngine() {
         // WHEN
-        final MultiBlockCipher engine = AesUtility.getAESEngine();
+        final MultiBlockCipher engine = AesUtil.getAESEngine();
         // THEN
         assertNotNull(engine, "Engine should not be null");
         assertInstanceOf(AESEngine.class, engine, "Engine should be an instance of AESEngine");

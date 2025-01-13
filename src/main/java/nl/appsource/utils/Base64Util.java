@@ -1,13 +1,13 @@
 package nl.appsource.utils;
 
-import org.springframework.stereotype.Component;
+import lombok.experimental.UtilityClass;
 
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
 
-@Component
-public final class Base64Wrapper {
+@UtilityClass
+public final class Base64Util {
 
     private static final Decoder DECODER = Base64.getDecoder();
     private static final Encoder ENCODER = Base64.getEncoder();
@@ -18,7 +18,7 @@ public final class Base64Wrapper {
      * @param toDecode the Base64-encoded string to be decoded
      * @return a byte array containing the decoded data
      */
-    public byte[] decode(final String toDecode) {
+    public static byte[] decode(final String toDecode) {
 
         return DECODER.decode(toDecode);
     }
@@ -29,7 +29,7 @@ public final class Base64Wrapper {
      * @param toEncode the byte array to be encoded
      * @return a byte array containing the Base64-encoded representation of the input byte array
      */
-    public byte[] encode(final byte[] toEncode) {
+    public static byte[] encode(final byte[] toEncode) {
 
         return ENCODER.encode(toEncode);
     }
@@ -40,7 +40,7 @@ public final class Base64Wrapper {
      * @param toEncode the byte array to be encoded
      * @return a String containing the Base64-encoded representation of the input byte array
      */
-    public String encodeToString(final byte[] toEncode) {
+    public static String encodeToString(final byte[] toEncode) {
 
         return ENCODER.encodeToString(toEncode);
     }

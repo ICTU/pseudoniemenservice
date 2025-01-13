@@ -2,10 +2,10 @@ package nl.appsource.service.crypto;
 
 import lombok.RequiredArgsConstructor;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
-import nl.appsource.utils.AesUtility;
-import nl.appsource.utils.Base64Wrapper;
+import nl.appsource.utils.AesUtil;
+import nl.appsource.utils.Base64Util;
 import nl.appsource.utils.ByteArrayUtil;
-import nl.appsource.utils.MessageDigestWrapper;
+import nl.appsource.utils.MessageDigestFactory;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
@@ -21,7 +21,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import static nl.appsource.utils.AesUtility.IV_LENGTH;
+import static nl.appsource.utils.AesUtil.IV_LENGTH;
 
 /**
  * Advanced Encryption Standard  Galois/Counter Mode (AES-GCM).
@@ -30,8 +30,6 @@ import static nl.appsource.utils.AesUtility.IV_LENGTH;
 @RequiredArgsConstructor
 public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerService {
 
-    private final Base64Wrapper base64Wrapper;
-    private final MessageDigestWrapper messageDigestWrapper;
     private final PseudoniemenServiceProperties pseudoniemenServiceProperties;
 
     /**
@@ -67,14 +65,14 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
         if (salt == null || salt.isEmpty()) {
             throw new IllegalArgumentException("Salt cannot be null or empty");
         }
-        final Cipher cipher = AesUtility.createCipher();
-        final GCMParameterSpec gcmParameterSpec = AesUtility.generateIV();
+        final Cipher cipher = AesUtil.createCipher();
+        final GCMParameterSpec gcmParameterSpec = AesUtil.generateIV();
         final SecretKey secretKey = createSecretKey(salt);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParameterSpec);
         final byte[] ciphertext = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
         final byte[] gcmIV = gcmParameterSpec.getIV();
         final byte[] encryptedWithIV = ByteArrayUtil.concat(gcmIV, ciphertext);
-        return base64Wrapper.encodeToString(encryptedWithIV);
+        return Base64Util.encodeToString(encryptedWithIV);
     }
 
     /**
@@ -88,11 +86,11 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
     @Override
     public SecretKey createSecretKey(final String salt) {
 
-        final byte[] keyBytes = base64Wrapper.decode(
+        final byte[] keyBytes = Base64Util.decode(
             pseudoniemenServiceProperties.getTokenPrivateKey());
         final byte[] saltBytes = salt.getBytes(StandardCharsets.UTF_8);
         final byte[] salterSecretBytes = ByteArrayUtil.concat(keyBytes, saltBytes);
-        final byte[] key = messageDigestWrapper.instance().digest(salterSecretBytes);
+        final byte[] key = MessageDigestFactory.instance().digest(salterSecretBytes);
         return new SecretKeySpec(key, "AES");
     }
 
@@ -123,12 +121,12 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
         IllegalBlockSizeException,
         BadPaddingException {
 
-        final Cipher cipher = AesUtility.createCipher();
-        final byte[] encryptedWithIV = base64Wrapper.decode(ciphertextWithIv);
+        final Cipher cipher = AesUtil.createCipher();
+        final byte[] encryptedWithIV = Base64Util.decode(ciphertextWithIv);
         final byte[] iv = Arrays.copyOfRange(encryptedWithIV, 0, IV_LENGTH);
         final byte[] ciphertext = Arrays.copyOfRange(encryptedWithIV, IV_LENGTH,
             encryptedWithIV.length);
-        final GCMParameterSpec gcmParameterSpec = AesUtility.createIVfromValues(iv);
+        final GCMParameterSpec gcmParameterSpec = AesUtil.createIVfromValues(iv);
         final SecretKey secretKey = createSecretKey(salt);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParameterSpec);
         final byte[] decryptedText = cipher.doFinal(ciphertext);

@@ -24,16 +24,16 @@ class AESHelperTest {
         """)
     void generateIV_ShouldReturnGCMParameterSpec_WithNonNullIV() {
         // WHEN
-        final GCMParameterSpec gcmParameterSpec = AesUtility.generateIV();
+        final GCMParameterSpec gcmParameterSpec = AesUtil.generateIV();
         // THEN
         assertNotNull(gcmParameterSpec, "GCMParameterSpec should not be null");
-        assertEquals(AesUtility.TAG_LENGTH, gcmParameterSpec.getTLen(),
+        assertEquals(AesUtil.TAG_LENGTH, gcmParameterSpec.getTLen(),
             "Tag length should be 128 (bits)");
         // The IV array is extracted from gcmParameterSpec
         final byte[] iv = gcmParameterSpec.getIV();
         assertNotNull(iv, "IV should not be null");
-        assertEquals(AesUtility.IV_LENGTH, iv.length,
-            "IV length should be " + AesUtility.IV_LENGTH);
+        assertEquals(AesUtil.IV_LENGTH, iv.length,
+            "IV length should be " + AesUtil.IV_LENGTH);
     }
 
     @Test
@@ -44,16 +44,16 @@ class AESHelperTest {
         """)
     void createIVfromValues_ShouldReturnGCMParameterSpec_FromGivenIV() {
         // GIVEN
-        final byte[] ivSource = new byte[AesUtility.IV_LENGTH];
+        final byte[] ivSource = new byte[AesUtil.IV_LENGTH];
         // Fill the array with deterministic data for test
         for (int i = 0; i < ivSource.length; i++) {
             ivSource[i] = (byte) i;
         }
         // WHEN
-        final GCMParameterSpec spec = AesUtility.createIVfromValues(ivSource);
+        final GCMParameterSpec spec = AesUtil.createIVfromValues(ivSource);
         // THEN
         assertNotNull(spec, "GCMParameterSpec should not be null");
-        assertEquals(AesUtility.TAG_LENGTH, spec.getTLen(),
+        assertEquals(AesUtil.TAG_LENGTH, spec.getTLen(),
             "Tag length should be 128 (bits)");
         assertArrayEquals(ivSource, spec.getIV(),
             "IV array in GCMParameterSpec should match the input");
@@ -68,7 +68,7 @@ class AESHelperTest {
     @SneakyThrows
     void createCipher_ShouldReturnAesGcmNoPaddingCipher() {
         // WHEN
-        final Cipher cipher = AesUtility.createCipher();
+        final Cipher cipher = AesUtil.createCipher();
         // THEN
         assertNotNull(cipher, "Cipher should not be null");
         // Depending on the JVM/provider, the algorithm name can be uppercase or some variation,
@@ -85,7 +85,7 @@ class AESHelperTest {
         """)
     void getAESEngine_ShouldReturnNonNullAESEngineInstance() {
         // WHEN
-        final MultiBlockCipher engine = AesUtility.getAESEngine();
+        final MultiBlockCipher engine = AesUtil.getAESEngine();
         // THEN
         assertNotNull(engine, "Engine should not be null");
         assertInstanceOf(AESEngine.class, engine, "Engine should be an instance of AESEngine");

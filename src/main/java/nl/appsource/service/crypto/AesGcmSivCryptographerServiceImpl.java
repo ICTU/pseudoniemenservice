@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
 import nl.appsource.model.Identifier;
-import nl.appsource.utils.AesUtility;
-import nl.appsource.utils.Base64Wrapper;
-import nl.appsource.utils.MessageDigestWrapper;
+import nl.appsource.utils.AesUtil;
+import nl.appsource.utils.Base64Util;
+import nl.appsource.utils.MessageDigestFactory;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.modes.GCMSIVBlockCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
@@ -29,9 +29,7 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     private static final int MAC_SIZE = 128;
     private static final int NONCE_LENTH = 12;
     private final PseudoniemenServiceProperties pseudoniemenServiceProperties;
-    private final MessageDigestWrapper messageDigestWrapper;
     private final IdentifierConverter identifierConverter;
-    private final Base64Wrapper base64Wrapper;
 
     /**
      * Creates AEADParameters using the given salt to generate a nonce and a private key for the
@@ -43,10 +41,10 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     @Override
     public AEADParameters createSecretKey(final String salt) {
 
-        final byte[] nonce16 = messageDigestWrapper.instance().digest(salt.getBytes(StandardCharsets.UTF_8));
+        final byte[] nonce16 = MessageDigestFactory.instance().digest(salt.getBytes(StandardCharsets.UTF_8));
         final byte[] nonce12 = Arrays.copyOf(nonce16, NONCE_LENTH);
         final String identifierPrivateKey = pseudoniemenServiceProperties.getIdentifierPrivateKey();
-        final KeyParameter keyParameter = new KeyParameter(base64Wrapper.decode(identifierPrivateKey));
+        final KeyParameter keyParameter = new KeyParameter(Base64Util.decode(identifierPrivateKey));
         return new AEADParameters(keyParameter, MAC_SIZE, nonce12);
     }
 
@@ -65,14 +63,14 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     public String encrypt(final Identifier identifier, final String salt) throws InvalidCipherTextException, IOException {
 
         final String plaintext = identifierConverter.serialize(identifier);
-        final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtility.getAESEngine());
+        final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtil.getAESEngine());
         cipher.init(true, createSecretKey(salt));
         final byte[] plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
         final byte[] ciphertext = new byte[cipher.getOutputSize(plainTextBytes.length)];
         final int outputLength = cipher.processBytes(plainTextBytes, 0, plainTextBytes.length, ciphertext, 0);
         cipher.doFinal(ciphertext, outputLength);
         cipher.reset();
-        return base64Wrapper.encodeToString(ciphertext);
+        return Base64Util.encodeToString(ciphertext);
     }
 
     /**
@@ -86,9 +84,9 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     @Override
     public Identifier decrypt(final String ciphertextString, final String salt) throws InvalidCipherTextException, JsonProcessingException {
 
-        final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtility.getAESEngine());
+        final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtil.getAESEngine());
         cipher.init(false, createSecretKey(salt));
-        final byte[] ciphertext = base64Wrapper.decode(ciphertextString);
+        final byte[] ciphertext = Base64Util.decode(ciphertextString);
         final byte[] plaintext = new byte[cipher.getOutputSize(ciphertext.length)];
         final int outputLength = cipher.processBytes(ciphertext, 0, ciphertext.length, plaintext, 0);
         cipher.doFinal(plaintext, outputLength);

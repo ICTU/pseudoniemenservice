@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 @UtilityClass
-public class AesUtility {
+public final class AesUtil {
 
     public static final int IV_LENGTH = 12;
     public static final int TAG_LENGTH = 128;

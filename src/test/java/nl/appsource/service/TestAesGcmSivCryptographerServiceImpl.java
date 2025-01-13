@@ -8,8 +8,6 @@ import nl.appsource.model.Identifier;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
 import nl.appsource.service.crypto.AesGcmSivCryptographerServiceImpl;
 import nl.appsource.service.crypto.IdentifierConverter;
-import nl.appsource.utils.Base64Wrapper;
-import nl.appsource.utils.MessageDigestWrapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {Base64Wrapper.class, ObjectMapper.class, AesGcmSivCryptographerServiceImpl.class, IdentifierConverter.class, MessageDigestWrapper.class, TestAesGcmSivCryptographerServiceImpl.TestConfiguration.class})
+@ContextConfiguration(classes = {ObjectMapper.class, AesGcmSivCryptographerServiceImpl.class, IdentifierConverter.class, TestAesGcmSivCryptographerServiceImpl.TestConfiguration.class})
 class TestAesGcmSivCryptographerServiceImpl {
 
     @Autowired

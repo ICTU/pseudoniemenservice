@@ -6,8 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
 import nl.appsource.service.crypto.AesGcmCryptographerService;
 import nl.appsource.service.crypto.AesGcmCryptographerServiceImpl;
-import nl.appsource.utils.Base64Wrapper;
-import nl.appsource.utils.MessageDigestWrapper;
+import nl.appsource.utils.Base64Util;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {Base64Wrapper.class, ObjectMapper.class, AesGcmCryptographerServiceImpl.class, MessageDigestWrapper.class, TestAesGcmCryptographerServiceImpl.TestConfiguration.class})
+@ContextConfiguration(classes = {ObjectMapper.class, AesGcmCryptographerServiceImpl.class, TestAesGcmCryptographerServiceImpl.TestConfiguration.class})
 class TestAesGcmCryptographerServiceImpl {
 
     @Autowired
