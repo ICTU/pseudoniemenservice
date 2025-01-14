@@ -82,7 +82,7 @@ jobs:
 
       - name: Buid and publish image via spring build-image
         run: |
-          mvn -Pnative --no-transfer-progress -B -DskipTests clean spring-boot:build-image -Dspring-boot.build-image.imagePlatform=linux/${{ matrix.platform }} -Dspring-boot.build-image.imageName=ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }}
+          mvn -Pnative -ntp -B -DskipTests clean spring-boot:build-image -Dspring-boot.build-image.imagePlatform=linux/${{ matrix.platform }} -Dspring-boot.build-image.imageName=ghcr.io/bhuism/pseudoniemenservice:latest-${{ matrix.platform }}
 
       - name: Push
         run: |
