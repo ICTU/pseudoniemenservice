@@ -16,9 +16,9 @@
     <properties>
         <java.version>21</java.version>
         <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
-        <spotbugs-annotations.version>4.8.6</spotbugs-annotations.version>
+        <spotbugs.version>4.8.6</spotbugs.version>
         <bcprov-jdk18on.version>1.79</bcprov-jdk18on.version>
-        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+        <checkstyle.version>3.6.0</checkstyle.version>
     </properties>
     <dependencies>
         <dependency>
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
-            <version>${spotbugs-annotations.version}</version>
+            <version>${spotbugs.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -130,7 +130,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${spotbugs-annotations.version}.6</version>
+                <version>${spotbugs.version}</version>
                 <configuration>
                     <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
                 </configuration>
@@ -138,7 +138,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${maven-checkstyle-plugin.version}</version>
+                <version>${checkstyle.version}</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <excludeGeneratedSources>true</excludeGeneratedSources>
