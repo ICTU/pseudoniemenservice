@@ -60,7 +60,7 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
      * @throws IOException                if an I/O error occurs during encryption
      */
     @Override
-    public String encrypt(final Identifier identifier, final String salt) throws InvalidCipherTextException, IOException {
+    public String encryptIdentifier(final Identifier identifier, final String salt) throws InvalidCipherTextException, IOException {
 
         final String plaintext = identifierConverter.serialize(identifier);
         final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtil.getAESEngine());
@@ -82,7 +82,7 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
      * @return the decrypted {@code Identifier} object
      */
     @Override
-    public Identifier decrypt(final String ciphertextString, final String salt) throws InvalidCipherTextException, JsonProcessingException {
+    public Identifier decryptIdentifier(final String ciphertextString, final String salt) throws InvalidCipherTextException, JsonProcessingException {
 
         final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtil.getAESEngine());
         cipher.init(false, createSecretKey(salt));

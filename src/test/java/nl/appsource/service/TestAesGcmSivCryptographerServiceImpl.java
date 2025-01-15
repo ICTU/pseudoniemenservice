@@ -51,14 +51,14 @@ class TestAesGcmSivCryptographerServiceImpl {
         When encrypting and decrypting each string with a specific key
         Then the decrypted identifier's BSN should be equal to the original plain string
         """)
-    void testEncyptDecryptForDifferentStringLengths() {
+    void testEncyptDecryptIdentifierForDifferentStringLengths() {
 
         testStrings.forEach(plain -> {
             try {
                 // GIVEN
-                final String crypted = aesGcmSivCryptographerService.encrypt(Identifier.builder().bsn(plain).build(), "helloHowAreyo12345678");
+                final String crypted = aesGcmSivCryptographerService.encryptIdentifier(Identifier.builder().bsn(plain).build(), "helloHowAreyo12345678");
                 // WHEN
-                final Identifier actual = aesGcmSivCryptographerService.decrypt(crypted, "helloHowAreyo12345678");
+                final Identifier actual = aesGcmSivCryptographerService.decryptIdentifier(crypted, "helloHowAreyo12345678");
                 // THEN
                 assertThat(actual.getBsn()).isEqualTo(plain);
             } catch (final Exception e) {
@@ -79,8 +79,8 @@ class TestAesGcmSivCryptographerServiceImpl {
         final String plaintext = "This is a test message to ensure ciphertext is different!";
         final Identifier identifier = Identifier.builder().bsn(plaintext).build();
         // WHEN
-        final String encryptedMessage1 = aesGcmSivCryptographerService.encrypt(identifier, "aniceSaltGorYu");
-        final String encryptedMessage2 = aesGcmSivCryptographerService.encrypt(identifier, "aniceSaltGorYu");
+        final String encryptedMessage1 = aesGcmSivCryptographerService.encryptIdentifier(identifier, "aniceSaltGorYu");
+        final String encryptedMessage2 = aesGcmSivCryptographerService.encryptIdentifier(identifier, "aniceSaltGorYu");
         // THEN
         // Assert that the two ciphertexts are the same
         assertThat(encryptedMessage1).isEqualTo(encryptedMessage2);

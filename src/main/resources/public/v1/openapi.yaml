@@ -143,6 +143,9 @@ components:
                 $ref: '#/components/schemas/identifierTypes'
               scope:
                 $ref: '#/components/schemas/scope'
+#            required:
+#              - token
+#              - identifierType
     exchangeIdentifierRequest:
       required: true
       content:

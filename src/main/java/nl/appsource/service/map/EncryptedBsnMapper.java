@@ -22,7 +22,7 @@ public class EncryptedBsnMapper {
      */
     public String map(final String bsnValue, final String recipientOIN) throws InvalidCipherTextException, JsonProcessingException {
 
-        final Identifier decodedIdentifier = aesGcmSivCryptographerService.decrypt(bsnValue, recipientOIN);
+        final Identifier decodedIdentifier = aesGcmSivCryptographerService.decryptIdentifier(bsnValue, recipientOIN);
         return decodedIdentifier.getBsn();
     }
 }

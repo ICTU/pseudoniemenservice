@@ -10,8 +10,8 @@ import java.io.IOException;
 public interface AesGcmSivCryptographerService {
     AEADParameters createSecretKey(String salt);
 
-    String encrypt(Identifier identifier, String salt)
+    String encryptIdentifier(Identifier identifier, String salt)
         throws InvalidCipherTextException, IOException;
 
-    Identifier decrypt(String ciphertextString, String salt) throws InvalidCipherTextException, JsonProcessingException;
+    Identifier decryptIdentifier(String ciphertextString, String salt) throws InvalidCipherTextException, JsonProcessingException;
 }
