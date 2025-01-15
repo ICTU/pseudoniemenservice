@@ -95,6 +95,7 @@ public final class ExchangeTokenController implements ExchangeTokenApi, VersionO
             wsExchangeTokenResponseBuilder.identifier(wsIdentifierBuilder.build());
 
             return ResponseEntity.ok(wsExchangeTokenResponseBuilder.build());
+
         } catch (final Exception e) {
             log.error("", e);
             return ResponseEntity.unprocessableEntity().build();
