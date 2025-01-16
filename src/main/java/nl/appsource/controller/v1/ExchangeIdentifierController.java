@@ -2,6 +2,8 @@ package nl.appsource.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nl.appsource.persistence.OrganisatieRepository;
+import nl.appsource.persistence.Organisation;
 import nl.appsource.pseudoniemenservice.generated.server.api.ExchangeIdentifierApi;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
@@ -17,6 +19,8 @@ public final class ExchangeIdentifierController implements ExchangeIdentifierApi
 
     private final ExchangeIdentifierService exchangeIdentifierService;
 
+    private final OrganisatieRepository organisatieRepository;
+
     /**
      * Exchanges an identifier based on the provided caller OIN and request data.
      *
@@ -30,6 +34,11 @@ public final class ExchangeIdentifierController implements ExchangeIdentifierApi
     public ResponseEntity<WsExchangeIdentifierResponse> exchangeIdentifier(final String callerOIN,
                                                                            final WsExchangeIdentifierRequest wsExchangeRequest) {
         try {
+
+            // lookup caller
+
+            final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
+
             final WsExchangeIdentifierResponse identifier = exchangeIdentifierService.exchangeIdentifier(wsExchangeRequest);
             return ResponseEntity.ok(identifier);
         } catch (final Exception e) {

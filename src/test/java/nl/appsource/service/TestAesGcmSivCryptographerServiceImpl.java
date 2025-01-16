@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
-import nl.appsource.model.Identifier;
+import nl.appsource.model.v1.Identifier;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
 import nl.appsource.service.crypto.AesGcmSivCryptographerServiceImpl;
-import nl.appsource.service.crypto.IdentifierConverter;
+import nl.appsource.service.serializer.IdentifierSerializer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ObjectMapper.class, AesGcmSivCryptographerServiceImpl.class, IdentifierConverter.class, TestAesGcmSivCryptographerServiceImpl.TestConfiguration.class})
+@ContextConfiguration(classes = {ObjectMapper.class, AesGcmSivCryptographerServiceImpl.class, IdentifierSerializer.class, TestAesGcmSivCryptographerServiceImpl.TestConfiguration.class})
 class TestAesGcmSivCryptographerServiceImpl {
 
     @Autowired
@@ -56,7 +56,7 @@ class TestAesGcmSivCryptographerServiceImpl {
         testStrings.forEach(plain -> {
             try {
                 // GIVEN
-                final String crypted = aesGcmSivCryptographerService.encryptIdentifier(Identifier.builder().bsn(plain).build(), "helloHowAreyo12345678");
+                final String crypted = aesGcmSivCryptographerService.encryptIdentifier(Identifier.fromBsn(plain), "helloHowAreyo12345678");
                 // WHEN
                 final Identifier actual = aesGcmSivCryptographerService.decryptIdentifier(crypted, "helloHowAreyo12345678");
                 // THEN
@@ -77,7 +77,7 @@ class TestAesGcmSivCryptographerServiceImpl {
     void testCiphertextIsTheSameForSamePlaintext() {
         // GIVEN
         final String plaintext = "This is a test message to ensure ciphertext is different!";
-        final Identifier identifier = Identifier.builder().bsn(plaintext).build();
+        final Identifier identifier = Identifier.fromBsn(plaintext);
         // WHEN
         final String encryptedMessage1 = aesGcmSivCryptographerService.encryptIdentifier(identifier, "aniceSaltGorYu");
         final String encryptedMessage2 = aesGcmSivCryptographerService.encryptIdentifier(identifier, "aniceSaltGorYu");

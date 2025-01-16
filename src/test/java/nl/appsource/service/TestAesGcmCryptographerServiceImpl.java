@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
-import nl.appsource.service.crypto.AesGcmCryptographerService;
 import nl.appsource.service.crypto.AesGcmCryptographerServiceImpl;
-import nl.appsource.utils.Base64Util;
+import nl.appsource.service.serializer.TokenSerializer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,11 +25,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ObjectMapper.class, AesGcmCryptographerServiceImpl.class, TestAesGcmCryptographerServiceImpl.TestConfiguration.class})
+@ContextConfiguration(classes = {ObjectMapper.class, AesGcmCryptographerServiceImpl.class, TestAesGcmCryptographerServiceImpl.TestConfiguration.class, TokenSerializer.class})
 class TestAesGcmCryptographerServiceImpl {
 
     @Autowired
-    private AesGcmCryptographerService aesGcmCryptographerService;
+    private AesGcmCryptographerServiceImpl aesGcmCryptographerService;
 
     @org.springframework.boot.test.context.TestConfiguration
     static class TestConfiguration {

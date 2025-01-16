@@ -2,6 +2,8 @@ package nl.appsource.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nl.appsource.persistence.OrganisatieRepository;
+import nl.appsource.persistence.Organisation;
 import nl.appsource.pseudoniemenservice.generated.server.api.GetTokenApi;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
@@ -17,6 +19,8 @@ public final class GetTokenController implements GetTokenApi, VersionOneControll
 
     private final GetTokenService getTokenService;
 
+    private final OrganisatieRepository organisatieRepository;
+
     /**
      * Retrieves a token based on the provided caller identifier and request details.
      *
@@ -29,10 +33,15 @@ public final class GetTokenController implements GetTokenApi, VersionOneControll
     @Override
     public ResponseEntity<WsGetTokenResponse> getToken(final String callerOIN,
                                                        final WsGetTokenRequest wsGetTokenRequest) {
-
-        final String recipientOIN = wsGetTokenRequest.getRecipientOIN();
-        final WsIdentifier identifier = wsGetTokenRequest.getIdentifier();
         try {
+            final String recipientOIN = wsGetTokenRequest.getRecipientOIN();
+
+            final WsIdentifier identifier = wsGetTokenRequest.getIdentifier();
+
+            // lookup caller
+
+            final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
+
             final WsGetTokenResponse wsGetTokenResponse = getTokenService.getWsGetTokenResponse(
                 recipientOIN, identifier);
             return ResponseEntity.ok(wsGetTokenResponse);

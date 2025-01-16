@@ -4,7 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
-import nl.appsource.model.Identifier;
+import nl.appsource.model.v1.Identifier;
+import nl.appsource.service.serializer.IdentifierSerializer;
 import nl.appsource.utils.AesUtil;
 import nl.appsource.utils.Base64Util;
 import nl.appsource.utils.MessageDigestFactory;
@@ -29,7 +30,7 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     private static final int MAC_SIZE = 128;
     private static final int NONCE_LENTH = 12;
     private final PseudoniemenServiceProperties pseudoniemenServiceProperties;
-    private final IdentifierConverter identifierConverter;
+    private final IdentifierSerializer identifierSerializer;
 
     /**
      * Creates AEADParameters using the given salt to generate a nonce and a private key for the
@@ -62,7 +63,7 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
     @Override
     public String encryptIdentifier(final Identifier identifier, final String salt) throws InvalidCipherTextException, IOException {
 
-        final String plaintext = identifierConverter.serialize(identifier);
+        final String plaintext = identifierSerializer.serialize(identifier);
         final GCMSIVBlockCipher cipher = new GCMSIVBlockCipher(AesUtil.getAESEngine());
         cipher.init(true, createSecretKey(salt));
         final byte[] plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
@@ -92,7 +93,7 @@ public class AesGcmSivCryptographerServiceImpl implements AesGcmSivCryptographer
         cipher.doFinal(plaintext, outputLength);
         cipher.reset();
         final String encodedIdentifier = new String(plaintext, StandardCharsets.UTF_8);
-        return identifierConverter.deSerialize(encodedIdentifier);
+        return identifierSerializer.deSerialize(encodedIdentifier);
     }
 }
 

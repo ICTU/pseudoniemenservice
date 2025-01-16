@@ -1,13 +1,12 @@
 package nl.appsource.service;
 
 import lombok.RequiredArgsConstructor;
-import nl.appsource.model.Identifier;
+import nl.appsource.model.v1.Identifier;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
-import nl.appsource.service.map.WsGetTokenResponseMapper;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.springframework.stereotype.Service;
 
@@ -35,10 +34,7 @@ public final class ExchangeIdentifierService {
         if (BSN.equals(wsIdentifierRequest.getType()) && ORGANISATION_PSEUDO.equals(recipientIdentifierType)) {
 
             // BSN to ORG_PSEUDO
-            final Identifier identifier = Identifier.builder()
-                .version(WsGetTokenResponseMapper.V_1)
-                .bsn(wsIdentifierRequest.getValue())
-                .build();
+            final Identifier identifier = Identifier.fromBsn(wsIdentifierRequest.getValue());
 
             final String encryptedIdentifier = aesGcmSivCryptographerService.encryptIdentifier(identifier, recipientOIN);
 

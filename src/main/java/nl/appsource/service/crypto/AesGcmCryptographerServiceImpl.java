@@ -2,6 +2,8 @@ package nl.appsource.service.crypto;
 
 import lombok.RequiredArgsConstructor;
 import nl.appsource.configuration.PseudoniemenServiceProperties;
+import nl.appsource.model.v1.Token;
+import nl.appsource.service.serializer.TokenSerializer;
 import nl.appsource.utils.AesUtil;
 import nl.appsource.utils.Base64Util;
 import nl.appsource.utils.ByteArrayUtil;
@@ -15,6 +17,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -31,6 +34,8 @@ import static nl.appsource.utils.AesUtil.IV_LENGTH;
 public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerService {
 
     private final PseudoniemenServiceProperties pseudoniemenServiceProperties;
+
+    private final TokenSerializer tokenSerializer;
 
     /**
      * Encrypts the given plaintext using the Advanced Encryption Standard in Galois/Counter Mode
@@ -51,13 +56,14 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
      * @throws NoSuchPaddingException             if the requested padding scheme is not available
      */
     @Override
-    public String encrypt(final String plaintext, final String salt)
-        throws IllegalBlockSizeException,
+    public String encryptToken(final Token token, final String salt) throws IllegalBlockSizeException,
         BadPaddingException,
         InvalidAlgorithmParameterException,
         InvalidKeyException,
         NoSuchAlgorithmException,
-        NoSuchPaddingException {
+        NoSuchPaddingException, IOException {
+
+        final String plaintext = tokenSerializer.serialize(token);
 
         if (plaintext == null || plaintext.isEmpty()) {
             throw new IllegalArgumentException("Plaintext cannot be null or empty");
@@ -65,6 +71,11 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
         if (salt == null || salt.isEmpty()) {
             throw new IllegalArgumentException("Salt cannot be null or empty");
         }
+
+        return encrypt(plaintext, salt);
+    }
+
+    public String encrypt(final String plaintext, final String salt) throws IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
         final Cipher cipher = AesUtil.createCipher();
         final GCMParameterSpec gcmParameterSpec = AesUtil.generateIV();
         final SecretKey secretKey = createSecretKey(salt);

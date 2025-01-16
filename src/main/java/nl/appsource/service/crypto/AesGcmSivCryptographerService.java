@@ -1,7 +1,7 @@
 package nl.appsource.service.crypto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import nl.appsource.model.Identifier;
+import nl.appsource.model.v1.Identifier;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.params.AEADParameters;
 

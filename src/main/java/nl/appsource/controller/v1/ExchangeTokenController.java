@@ -2,15 +2,17 @@ package nl.appsource.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nl.appsource.model.Identifier;
-import nl.appsource.model.Token;
+import nl.appsource.model.v1.Identifier;
+import nl.appsource.model.v1.Token;
+import nl.appsource.persistence.OrganisatieRepository;
+import nl.appsource.persistence.Organisation;
 import nl.appsource.pseudoniemenservice.generated.server.api.ExchangeTokenApi;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifier;
 import nl.appsource.service.crypto.AesGcmCryptographerService;
 import nl.appsource.service.crypto.AesGcmSivCryptographerService;
-import nl.appsource.service.crypto.TokenConverter;
+import nl.appsource.service.serializer.TokenSerializer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,6 @@ import java.util.Objects;
 
 import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.BSN;
 import static nl.appsource.pseudoniemenservice.generated.server.model.WsIdentifierTypes.ORGANISATION_PSEUDO;
-import static nl.appsource.service.map.WsGetTokenResponseMapper.V_1;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,9 +28,11 @@ public final class ExchangeTokenController implements ExchangeTokenApi, VersionO
 
     private final AesGcmCryptographerService aesGcmCryptographerService;
 
-    private final TokenConverter tokenConverter;
+    private final TokenSerializer tokenSerializer;
 
     private final AesGcmSivCryptographerService aesGcmSivCryptographerService;
+
+    private final OrganisatieRepository organisatieRepository;
 
     /**
      * Handles the exchange of a token and returns the corresponding identifier in a response. This
@@ -48,6 +51,8 @@ public final class ExchangeTokenController implements ExchangeTokenApi, VersionO
 
             // lookup caller
 
+            final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
+
             // caller authorisation
 
             // decrypt token
@@ -56,7 +61,7 @@ public final class ExchangeTokenController implements ExchangeTokenApi, VersionO
 
             // deserialize token
 
-            final Token token = tokenConverter.deSerialize(serializedToken);
+            final Token token = tokenSerializer.deSerialize(serializedToken);
 
             // validate token
 
@@ -77,14 +82,8 @@ public final class ExchangeTokenController implements ExchangeTokenApi, VersionO
 
                 // BSN -> ORHANISATION_PSEUDO conversion
                 case ORGANISATION_PSEUDO -> {
-
-                    final Identifier tokenIdentifier = Identifier.builder()
-                        .version(V_1)
-                        .bsn(token.getBsn())
-                        .build();
-
-                    final String encryptedIdentifier = aesGcmSivCryptographerService.encryptIdentifier(tokenIdentifier, callerOIN);
-
+                    final Identifier identifier = Identifier.fromBsn(token.getBsn());
+                    final String encryptedIdentifier = aesGcmSivCryptographerService.encryptIdentifier(identifier, callerOIN);
                     wsIdentifierBuilder.type(ORGANISATION_PSEUDO).value(encryptedIdentifier);
                 }
 
