@@ -39,10 +39,15 @@ public final class GetTokenService {
         final String bsn;
 
         switch (identifier.getType()) {
-            case BSN -> bsn = identifierValue;
-            case ORGANISATION_PSEUDO -> bsn = aesGcmSivCryptographerService.decryptIdentifier(identifierValue, recipientOIN).getBsn();
-            default -> throw new IllegalArgumentException(
-                "Unsupported identifier type: " + identifier.getType());
+            case BSN:
+                bsn = identifierValue;
+                break;
+            case ORGANISATION_PSEUDO:
+                bsn = aesGcmSivCryptographerService.decryptIdentifier(identifierValue, recipientOIN).getBsn();
+                break;
+            default:
+                throw new IllegalArgumentException(
+                    "Unsupported identifier type: " + identifier.getType());
         }
 
         final Token token = Token.fromBsn(bsn, recipientOIN, creationDate);

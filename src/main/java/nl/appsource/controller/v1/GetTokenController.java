@@ -3,7 +3,6 @@ package nl.appsource.controller.v1;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.persistence.OrganisatieRepository;
-import nl.appsource.persistence.Organisation;
 import nl.appsource.pseudoniemenservice.generated.server.api.GetTokenApi;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsGetTokenResponse;
@@ -39,8 +38,7 @@ public final class GetTokenController implements GetTokenApi, VersionOneControll
             final WsIdentifier identifier = wsGetTokenRequest.getIdentifier();
 
             // lookup caller
-
-            final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
+            // final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
 
             final WsGetTokenResponse wsGetTokenResponse = getTokenService.getWsGetTokenResponse(
                 recipientOIN, identifier);

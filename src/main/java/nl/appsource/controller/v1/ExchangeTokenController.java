@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.appsource.model.v1.Identifier;
 import nl.appsource.model.v1.Token;
 import nl.appsource.persistence.OrganisatieRepository;
-import nl.appsource.persistence.Organisation;
 import nl.appsource.pseudoniemenservice.generated.server.api.ExchangeTokenApi;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeTokenResponse;
@@ -50,8 +49,7 @@ public final class ExchangeTokenController implements ExchangeTokenApi, VersionO
         try {
 
             // lookup caller
-
-            final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
+            // final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
 
             // caller authorisation
 
@@ -78,16 +76,19 @@ public final class ExchangeTokenController implements ExchangeTokenApi, VersionO
             switch (wsExchangeTokenForIdentifierRequest.getIdentifierType()) {
 
                 // no convesion
-                case BSN -> wsIdentifierBuilder.type(BSN).value(token.getBsn());
+                case BSN:
+                    wsIdentifierBuilder.type(BSN).value(token.getBsn());
+                    break;
 
                 // BSN -> ORHANISATION_PSEUDO conversion
-                case ORGANISATION_PSEUDO -> {
+                case ORGANISATION_PSEUDO:
                     final Identifier identifier = Identifier.fromBsn(token.getBsn());
                     final String encryptedIdentifier = aesGcmSivCryptographerService.encryptIdentifier(identifier, callerOIN);
                     wsIdentifierBuilder.type(ORGANISATION_PSEUDO).value(encryptedIdentifier);
-                }
+                    break;
 
-                default -> throw new RuntimeException("Unknown identifier type");
+                default:
+                    throw new RuntimeException("Unknown identifier type");
 
             }
 

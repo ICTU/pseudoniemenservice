@@ -12,7 +12,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 public interface AesGcmCryptographerService {
-    String encryptToken(final Token token, final String salt)
+    String encryptToken(Token token, String salt)
         throws IllegalBlockSizeException,
         BadPaddingException,
         InvalidAlgorithmParameterException,

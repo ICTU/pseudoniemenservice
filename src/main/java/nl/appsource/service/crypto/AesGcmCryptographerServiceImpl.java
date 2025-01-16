@@ -42,8 +42,7 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
      * (AES-GCM) and a provided salt. The resulting ciphertext is Base64 encoded and includes the IV
      * used during encryption, concatenated with the encrypted data.
      *
-     * @param plaintext the plaintext message to be encrypted
-     * @param salt      the salt value used to derive the encryption key
+     * @param salt the salt value used to derive the encryption key
      * @return the Base64 encoded ciphertext, including the IV
      * @throws IllegalBlockSizeException          if the block size is invalid during the encryption
      *                                            process
@@ -74,6 +73,19 @@ public class AesGcmCryptographerServiceImpl implements AesGcmCryptographerServic
 
         return encrypt(plaintext, salt);
     }
+
+    /**
+     * Encrypt a string.
+     * @param plaintext text to encrypt
+     * @param salt to use in the encryption
+     * @return encrypted string
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     * @throws NoSuchPaddingException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidAlgorithmParameterException
+     * @throws InvalidKeyException
+     */
 
     public String encrypt(final String plaintext, final String salt) throws IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
         final Cipher cipher = AesUtil.createCipher();

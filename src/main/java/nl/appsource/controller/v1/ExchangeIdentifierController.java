@@ -3,7 +3,6 @@ package nl.appsource.controller.v1;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.appsource.persistence.OrganisatieRepository;
-import nl.appsource.persistence.Organisation;
 import nl.appsource.pseudoniemenservice.generated.server.api.ExchangeIdentifierApi;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierRequest;
 import nl.appsource.pseudoniemenservice.generated.server.model.WsExchangeIdentifierResponse;
@@ -36,8 +35,7 @@ public final class ExchangeIdentifierController implements ExchangeIdentifierApi
         try {
 
             // lookup caller
-
-            final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
+            // final Organisation organisation = organisatieRepository.findByOin(callerOIN).orElseThrow(RuntimeException::new);
 
             final WsExchangeIdentifierResponse identifier = exchangeIdentifierService.exchangeIdentifier(wsExchangeRequest);
             return ResponseEntity.ok(identifier);
