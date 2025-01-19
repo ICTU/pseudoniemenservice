@@ -37,7 +37,7 @@ jobs:
             runner: ubuntu-latest
             javaarch: x64
           - platform: arm64
-            runner: ubuntu-24.04-arm
+            runner: ubuntu-latest-arm
             javaarch: aarch64
     runs-on: ${{ matrix.runner }}
 
