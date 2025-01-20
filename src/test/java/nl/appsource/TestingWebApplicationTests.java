@@ -34,19 +34,24 @@ class TestingWebApplicationTests {
     @Autowired
     private TestRestTemplate restTemplate;
     @LocalManagementPort
-    private int actuatorPort;
+    private int managementPort;
 
     @Test
-    @DisplayName("""
-        Given the Spring Boot application is running with actuator enabled
-        When accessing the /manage/health endpoint
-        Then the response should contain a status of 'UP'
-        """)
-    void testActuatorHealthEndpoint() {
-        assertThat(
-            restTemplate.getForObject("http://localhost:" + actuatorPort + "/manage/health",
-                String.class)
-        ).contains("{\"status\":\"UP\"}");
+    public void actuatorHealthShouldReturnDefaultMessage() {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + managementPort + "/manage/health",
+            String.class)).isEqualTo("{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}");
+    }
+
+    @Test
+    public void actuatorHealthLiveNessShouldReturnDefaultMessage() {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + managementPort + "/manage/health/liveness",
+            String.class)).isEqualTo("{\"status\":\"UP\"}");
+    }
+
+    @Test
+    public void actuatorHealthReadinessShouldReturnDefaultMessage() {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + managementPort + "/manage/health/readiness",
+            String.class)).isEqualTo("{\"status\":\"UP\"}");
     }
 
     @Test

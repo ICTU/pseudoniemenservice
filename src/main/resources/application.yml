@@ -22,13 +22,14 @@ spring:
     time-zone: Europe/Amsterdam
 
 management:
-  endpoints:
+  endpoint:
     info:
       access: read_only
     health:
       access: read_only
       probes:
         enabled: true
+  endpoints:
     web:
       base-path: /manage
       exposure:
@@ -40,4 +41,3 @@ management:
     ssl:
       enabled: false
     add-application-context-header: true
-
