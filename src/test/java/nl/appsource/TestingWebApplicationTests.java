@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalManagementPort;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,17 +33,18 @@ class TestingWebApplicationTests {
     private Environment environment;
     @Autowired
     private TestRestTemplate restTemplate;
+    @LocalManagementPort
+    private int actuatorPort;
 
     @Test
     @DisplayName("""
         Given the Spring Boot application is running with actuator enabled
-        When accessing the /actuator/health endpoint
+        When accessing the /manage/health endpoint
         Then the response should contain a status of 'UP'
         """)
     void testActuatorHealthEndpoint() {
-        final int actuatorPort = environment.getProperty("local.management.port", Integer.class);
         assertThat(
-            restTemplate.getForObject("http://localhost:" + actuatorPort + "/actuator/health",
+            restTemplate.getForObject("http://localhost:" + actuatorPort + "/manage/health",
                 String.class)
         ).contains("{\"status\":\"UP\"}");
     }
