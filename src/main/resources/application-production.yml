@@ -9,11 +9,3 @@ logging:
 spring:
   application:
     name: Pseudoniemen Service
-management:
-  endpoint:
-    info:
-      access: read_only
-    health:
-      access: read_only
-      probes:
-        enabled: true

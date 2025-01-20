@@ -22,9 +22,22 @@ spring:
     time-zone: Europe/Amsterdam
 
 management:
+  endpoints:
+    info:
+      access: read_only
+    health:
+      access: read_only
+      probes:
+        enabled: true
+    web:
+      base-path: /manage
+      exposure:
+        include:
+          - health
+          - info
   server:
     port: 9080
-  endpoints:
-    web:
-      exposure:
-        include: 'health, info'
+    ssl:
+      enabled: false
+    add-application-context-header: true
+
