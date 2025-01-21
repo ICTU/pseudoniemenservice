@@ -3,5 +3,6 @@
   "extends": [
     "config:recommended",
     ":rebaseStalePrs"
-  ]
+  ],
+  "automerge": true
 }
